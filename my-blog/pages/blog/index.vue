@@ -8,6 +8,8 @@ const { data: posts } = await useAsyncData('posts', () =>
 useSeoMeta({
   title: 'Blog',
   description: 'Blog posts',
+  ogTitle: 'Blog',
+  ogDescription: 'Blog posts',
 })
 
 function formatDate(date: string) {

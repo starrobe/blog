@@ -24,7 +24,7 @@ useSeoMeta({
 
 <template>
   <article v-if="post" class="page-container slide-enter-content">
-    <TableOfContents :body="post.body" />
+    <TableOfContents />
     <header>
       <h1>{{ post.title }}</h1>
       <div class="meta">

@@ -1,9 +1,23 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+  <div class="layout">
     <AppHeader />
-    <main class="flex-1">
+    <main class="main">
       <slot />
     </main>
     <AppFooter />
   </div>
 </template>
+
+<style scoped>
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg);
+  color: var(--fg);
+}
+
+.main {
+  flex: 1;
+}
+</style>

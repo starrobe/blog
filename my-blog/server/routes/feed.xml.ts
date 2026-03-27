@@ -1,24 +1,32 @@
 export default defineEventHandler(async (event) => {
-  const baseUrl = 'https://my-blog.vercel.app'
+  const config = useRuntimeConfig()
+  const baseUrl = config.public.siteUrl
   const posts = await queryCollection('blog')
     .order('date', 'DESC')
     .limit(20)
     .all()
 
+  const escapeXml = (str: string) => str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Blog</title>
+    <title>${escapeXml(config.public.siteName)}</title>
     <link>${baseUrl}</link>
-    <description>A personal blog about technology</description>
+    <description>${escapeXml(config.public.siteDescription)}</description>
     <language>zh-CN</language>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     ${posts.map((post) => `
     <item>
-      <title>${post.title}</title>
+      <title>${escapeXml(post.title)}</title>
       <link>${baseUrl}${post.path}</link>
       <guid>${baseUrl}${post.path}</guid>
-      <description>${post.description || ''}</description>
+      <description>${escapeXml(post.description || '')}</description>
       <pubDate>${post.date ? new Date(post.date).toUTCString() : ''}</pubDate>
     </item>`).join('')}
   </channel>

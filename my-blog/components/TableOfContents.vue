@@ -6,7 +6,6 @@ interface Heading {
 }
 
 const headings = ref<Heading[]>([])
-const show = ref(false)
 const route = useRoute()
 
 function updateHeadings() {
