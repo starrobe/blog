@@ -3,11 +3,6 @@ const { data: page } = await useAsyncData('about', () =>
   queryCollection('about')
     .first()
 )
-
-useSeoMeta({
-  title: 'Home',
-  description: 'Personal blog',
-})
 </script>
 
 <template>

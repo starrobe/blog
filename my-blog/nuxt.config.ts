@@ -42,8 +42,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://my-blog.vercel.app',
-      siteName: 'My Blog',
-      siteDescription: 'A personal blog about technology',
     },
   },
 })

@@ -11,15 +11,6 @@ const { data: post } = await useAsyncData(`post-${slug}`, () =>
 if (!post.value) {
   throw createError({ statusCode: 404, message: 'Post not found' })
 }
-
-useSeoMeta({
-  title: post.value.title,
-  description: post.value.description,
-  ogTitle: post.value.title,
-  ogDescription: post.value.description,
-  ogImage: post.value.image,
-  twitterCard: 'summary_large_image',
-})
 </script>
 
 <template>

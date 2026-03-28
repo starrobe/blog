@@ -2,13 +2,6 @@
 const { data: about } = await useAsyncData('about', () =>
   queryCollection('about').first()
 )
-
-useSeoMeta({
-  title: 'About',
-  description: 'About page',
-  ogTitle: 'About',
-  ogDescription: 'About page',
-})
 </script>
 
 <template>

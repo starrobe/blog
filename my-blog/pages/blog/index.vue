@@ -5,13 +5,6 @@ const { data: posts } = await useAsyncData('posts', () =>
     .all()
 )
 
-useSeoMeta({
-  title: 'Blog',
-  description: 'Blog posts',
-  ogTitle: 'Blog',
-  ogDescription: 'Blog posts',
-})
-
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', {
     month: 'short',
