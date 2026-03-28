@@ -16,6 +16,7 @@ html {
   color: var(--c-text);
   overflow-x: hidden;
   overflow-y: scroll;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html.dark {
@@ -27,6 +28,17 @@ html.dark {
   --fg-deep: #ddd;
   --fg-deeper: #fff;
   color-scheme: dark;
+}
+
+/* Theme transition for common elements */
+body,
+.header,
+.main,
+.footer,
+.prose,
+.post-card,
+article header {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Selection */
