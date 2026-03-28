@@ -78,12 +78,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Theme transition - flash effect */
-html.color-scheme-transitioning,
-html.color-scheme-transitioning body {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
 /* Links */
 a {
   color: inherit;
