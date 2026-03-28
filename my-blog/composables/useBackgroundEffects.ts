@@ -12,15 +12,16 @@ const defaults: Required<BackgroundEffectsOptions> = {
   texture: false,
 }
 
-const effects = ref<Required<BackgroundEffectsOptions>>({ ...defaults })
-
 export function useBackgroundEffects() {
   const config = useRuntimeConfig()
 
-  // Initialize from runtime config if available
-  if (config.public.backgroundEffects) {
-    effects.value = { ...defaults, ...(config.public.backgroundEffects as BackgroundEffectsOptions) }
-  }
+  // Use useState for SSR-safe state
+  const effects = useState<Required<BackgroundEffectsOptions>>('background-effects', () => {
+    if (config.public.backgroundEffects) {
+      return { ...defaults, ...(config.public.backgroundEffects as BackgroundEffectsOptions) }
+    }
+    return { ...defaults }
+  })
 
   function toggleEffect(effect: keyof BackgroundEffectsOptions) {
     effects.value[effect] = !effects.value[effect]
