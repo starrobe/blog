@@ -16,6 +16,7 @@ html {
   color: var(--c-text);
   overflow-x: hidden;
   overflow-y: scroll;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html.dark {
