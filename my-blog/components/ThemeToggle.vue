@@ -3,8 +3,19 @@ const colorMode = useColorMode()
 
 const isDark = computed(() => colorMode.value === 'dark')
 
-function toggle() {
+async function toggle() {
+  // Add transition class for smooth theme switch
+  document.documentElement.classList.add('color-scheme-transitioning')
+
+  // Brief flash effect
+  await new Promise(resolve => setTimeout(resolve, 50))
+
   colorMode.preference = isDark.value ? 'light' : 'dark'
+
+  // Remove transition class after animation
+  setTimeout(() => {
+    document.documentElement.classList.remove('color-scheme-transitioning')
+  }, 300)
 }
 </script>
 
@@ -46,13 +57,9 @@ function toggle() {
   opacity: 1;
 }
 
-.icon {
-  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
 .icon-enter-active,
 .icon-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .icon-enter-from {

@@ -75,6 +75,13 @@ body {
   flex-direction: column;
   background-color: var(--c-bg);
   color: var(--c-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme transition - flash effect */
+html.color-scheme-transitioning,
+html.color-scheme-transitioning body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Links */
