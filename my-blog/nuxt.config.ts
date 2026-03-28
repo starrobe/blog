@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@nuxt/image',
-    '@nuxtjs/color-mode',
   ],
 
   content: {
@@ -18,10 +17,6 @@ export default defineNuxtConfig({
     },
   },
 
-  colorMode: {
-    classSuffix: '',
-  },
-
   image: {
     quality: 80,
     format: ['webp', 'avif'],
@@ -29,5 +24,11 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: [],
+    },
   },
 })
