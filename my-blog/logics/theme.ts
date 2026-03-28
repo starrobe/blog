@@ -1,6 +1,17 @@
-const isDark = ref(false)
-
 export function useIsDark() {
+  const isDark = useState('isDark', () => false)
+
+  // Initialize from localStorage on client
+  if (import.meta.client) {
+    const stored = localStorage.getItem('nuxt-color-mode')
+    if (stored === 'dark' || stored === 'light') {
+      isDark.value = stored === 'dark'
+    } else {
+      // Check system preference
+      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+  }
+
   return isDark
 }
 
@@ -9,8 +20,10 @@ export function toggleDark(event: MouseEvent) {
   const isAppearanceTransition = document.startViewTransition
     && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+  const isDark = useIsDark()
+
   if (!isAppearanceTransition) {
-    toggleColorMode()
+    toggleColorMode(isDark)
     return
   }
 
@@ -22,7 +35,7 @@ export function toggleDark(event: MouseEvent) {
   )
 
   const transition = document.startViewTransition(async () => {
-    toggleColorMode()
+    toggleColorMode(isDark)
     await nextTick()
   })
 
@@ -47,10 +60,10 @@ export function toggleDark(event: MouseEvent) {
   })
 }
 
-function toggleColorMode() {
+function toggleColorMode(isDark: { value: boolean }) {
   const html = document.documentElement
-  // Remove both dark and light classes and add the opposite
   html.classList.remove('dark', 'light')
   isDark.value = !isDark.value
   html.classList.add(isDark.value ? 'dark' : 'light')
+  localStorage.setItem('nuxt-color-mode', isDark.value ? 'dark' : 'light')
 }
