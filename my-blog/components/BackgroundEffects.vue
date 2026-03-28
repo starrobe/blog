@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { effects } = useBackgroundEffects()
 const colorMode = useColorMode()
 const isDark = computed(() => colorMode.value === 'dark')
 
@@ -24,8 +23,6 @@ interface SakuraPetal {
 }
 
 function initSakura(canvas: HTMLCanvasElement) {
-  if (!effects.value.sakura) return
-
   const ctx = canvas.getContext('2d')
   if (!ctx) return
 
@@ -136,134 +133,21 @@ onMounted(() => {
 
 <template>
   <ClientOnly>
-    <!-- Noise layer -->
-    <div
-      v-if="effects.noise"
-      class="bg-layer noise-layer"
-    />
-
-    <!-- Gradient layer -->
-    <div
-      v-if="effects.gradient"
-      class="bg-layer gradient-layer"
-    />
-
-    <!-- Texture layer -->
-    <div
-      v-if="effects.texture"
-      class="bg-layer texture-layer"
-    />
-
-    <!-- Sakura layer -->
     <canvas
-      v-if="effects.sakura"
       ref="sakuraCanvasRef"
-      class="bg-canvas sakura-canvas"
+      class="sakura-canvas"
     />
   </ClientOnly>
 </template>
 
 <style scoped>
-.bg-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.bg-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Noise layer - SVG filter */
-.noise-layer {
-  z-index: 1;
-  opacity: 0.03;
-  background: transparent;
-}
-
-.noise-layer::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-}
-
-html:not(.dark) .noise-layer {
-  opacity: 0.015;
-}
-
-/* Gradient layer - radial gradient */
-.gradient-layer {
-  z-index: 2;
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(100, 100, 100, 0.08) 0%,
-    transparent 60%
-  );
-}
-
-html.dark .gradient-layer {
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(60, 60, 60, 0.15) 0%,
-    transparent 50%
-  );
-}
-
-/* Texture layer - subtle grid pattern */
-.texture-layer {
-  z-index: 3;
-  opacity: 0.02;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 50px,
-    rgba(150, 150, 150, 0.1) 50px,
-    rgba(150, 150, 150, 0.1) 51px
-  ),
-  repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 50px,
-    rgba(150, 150, 150, 0.1) 50px,
-    rgba(150, 150, 150, 0.1) 51px
-  );
-}
-
-html.dark .texture-layer {
-  opacity: 0.03;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 50px,
-    rgba(200, 200, 200, 0.08) 50px,
-    rgba(200, 200, 200, 0.08) 51px
-  ),
-  repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 50px,
-    rgba(200, 200, 200, 0.08) 50px,
-    rgba(200, 200, 200, 0.08) 51px
-  );
-}
-
-/* Sakura canvas */
 .sakura-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   z-index: 4;
 }
 </style>
