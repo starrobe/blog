@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const _route = useRoute()
 const scroll = ref(0)
 
 const handleScroll = () => {
