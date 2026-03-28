@@ -16,7 +16,6 @@ html {
   color: var(--c-text);
   overflow-x: hidden;
   overflow-y: scroll;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html.dark {
@@ -75,7 +74,6 @@ body {
   flex-direction: column;
   background-color: var(--c-bg);
   color: var(--c-text);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Links */
