@@ -29,19 +29,5 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
-    head: {
-      htmlAttrs: { lang: 'zh-CN' },
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { charset: 'utf-8' },
-      ],
-    },
-  },
-
-  runtimeConfig: {
-    public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://my-blog.vercel.app',
-    },
   },
 })
