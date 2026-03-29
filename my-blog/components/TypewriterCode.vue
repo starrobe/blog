@@ -1,21 +1,28 @@
 <script setup lang="ts">
-const code = 'printf("Hello World!");'
+const codes = [
+  'printf("Hello World!\\n");',
+  'std::cout << "Hello World!" << std::endl;',
+]
+const currentIndex = ref(0)
 const displayText = ref('')
 const isDeleting = ref(false)
 let timer: ReturnType<typeof setTimeout>
 
+const currentCode = computed(() => codes[currentIndex.value])
+
 function type() {
   if (!isDeleting.value) {
-    displayText.value = code.slice(0, displayText.value.length + 1)
-    if (displayText.value === code) {
+    displayText.value = currentCode.value.slice(0, displayText.value.length + 1)
+    if (displayText.value === currentCode.value) {
       isDeleting.value = true
       timer = setTimeout(type, 2000)
       return
     }
   } else {
-    displayText.value = code.slice(0, displayText.value.length - 1)
+    displayText.value = currentCode.value.slice(0, displayText.value.length - 1)
     if (displayText.value === '') {
       isDeleting.value = false
+      currentIndex.value = (currentIndex.value + 1) % codes.length
       timer = setTimeout(type, 500)
       return
     }
