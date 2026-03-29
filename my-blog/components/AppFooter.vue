@@ -9,7 +9,6 @@
 <style scoped>
 .footer {
   padding: 2rem 0;
-  margin-top: 4rem;
 }
 
 .footer-content {
