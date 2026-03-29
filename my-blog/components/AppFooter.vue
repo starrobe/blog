@@ -1,14 +1,13 @@
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <p>© {{ new Date().getFullYear() }} My Blog. Built with Nuxt 3.</p>
+      <p>© {{ new Date().getFullYear() }} Adon</p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .footer {
-  border-top: 1px solid rgba(125, 125, 125, 0.2);
   padding: 2rem 0;
   margin-top: 4rem;
 }

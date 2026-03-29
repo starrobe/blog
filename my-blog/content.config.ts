@@ -17,6 +17,8 @@ export default defineContentConfig({
       source: 'home.md',
       schema: z.object({
         title: z.string(),
+        name: z.string(),
+        description: z.string(),
       }),
     }),
   },
