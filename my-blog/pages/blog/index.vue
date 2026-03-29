@@ -35,10 +35,7 @@ function isSameYear(a?: string, b?: string) {
           <NuxtLink :to="post.path" class="post-link">
             <div class="title-row">
               <span class="title">{{ post.title }}</span>
-            </div>
-            <div class="meta-row">
               <span class="date">{{ formatDate(post.date) }}</span>
-              <span v-if="post.description" class="description">{{ post.description }}</span>
             </div>
           </NuxtLink>
         </li>
@@ -72,7 +69,7 @@ function isSameYear(a?: string, b?: string) {
   font-size: 8em;
   font-weight: 700;
   color: transparent;
-  -webkit-text-stroke: 2px #aaa;
+  -webkit-text-stroke: 5px #aaa;
   opacity: 0.1;
 }
 
@@ -108,24 +105,12 @@ function isSameYear(a?: string, b?: string) {
   line-height: 1.2;
 }
 
-.meta-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.date {
   font-size: 0.875rem;
   color: var(--fg-light);
-}
-
-.date {
   opacity: 0.5;
   white-space: nowrap;
-}
-
-.description {
-  opacity: 0.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-left: 0.5rem;
 }
 
 .empty {
