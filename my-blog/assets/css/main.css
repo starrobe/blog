@@ -284,6 +284,41 @@ html.dark .shiki {
   margin: 1.5em 0;
 }
 
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-size: 0.9em;
+  overflow-x: auto;
+  display: block;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid rgba(125, 125, 125, 0.25);
+  padding: 0.75em 1em;
+  text-align: left;
+}
+
+.prose th {
+  background-color: rgba(125, 125, 125, 0.08);
+  font-weight: 600;
+  color: var(--fg-deep);
+}
+
+.dark .prose th {
+  background-color: rgba(125, 125, 125, 0.15);
+}
+
+.prose tr:nth-child(even) {
+  background-color: rgba(125, 125, 125, 0.04);
+}
+
+.dark .prose tr:nth-child(even) {
+  background-color: rgba(125, 125, 125, 0.08);
+}
+
 /* Links in prose */
 .prose a {
   font-weight: 500;
