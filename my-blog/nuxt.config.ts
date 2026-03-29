@@ -15,10 +15,8 @@ export default defineNuxtConfig({
       },
       langs: ['javascript', 'typescript', 'vue', 'bash', 'json', 'yaml', 'markdown', 'css', 'html'],
     },
-    mdc: {
-      headings: {
-        anchorLinks: false,
-      },
+    renderer: {
+      anchorLinks: false,
     },
   },
 
