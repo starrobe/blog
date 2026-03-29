@@ -12,9 +12,9 @@ export default defineContentConfig({
         tags: z.array(z.string()).optional(),
       }),
     }),
-    about: defineCollection({
+    home: defineCollection({
       type: 'page',
-      source: 'about.md',
+      source: 'home.md',
       schema: z.object({
         title: z.string(),
       }),
