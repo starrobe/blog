@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run generate",
+  "buildCommand": "pnpm generate",
   "outputDirectory": ".output/public",
-  "installCommand": "npm install"
+  "installCommand": "pnpm install"
 }
