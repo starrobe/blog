@@ -41,7 +41,7 @@ if (!post.value) {
 
 <style scoped>
 header {
-  padding: 3rem 0 1.5rem;
+  padding: 3rem 0 0;
   margin-bottom: 2rem;
 }
 
