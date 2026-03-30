@@ -325,19 +325,26 @@ html.dark .shiki {
 }
 
 /* Header anchor links */
-.prose a.header-anchor {
+.prose h1 > .header-anchor,
+.prose h2 > .header-anchor,
+.prose h3 > .header-anchor,
+.prose h4 > .header-anchor,
+.prose h5 > .header-anchor,
+.prose h6 > .header-anchor {
   float: left;
   margin-left: -1.2em;
   padding-right: 0.5em;
-  font-size: 0.85em;
   opacity: 0;
   text-decoration: none;
   border: 0;
 }
 
-.prose h1:hover .header-anchor,
-.prose h2:hover .header-anchor,
-.prose h3:hover .header-anchor {
+.prose h1:hover > .header-anchor,
+.prose h2:hover > .header-anchor,
+.prose h3:hover > .header-anchor,
+.prose h4:hover > .header-anchor,
+.prose h5:hover > .header-anchor,
+.prose h6:hover > .header-anchor {
   opacity: 0.5;
 }
 
@@ -415,7 +422,6 @@ button {
 /* Article header */
 article header {
   padding: 3rem 0 1.5rem;
-  border-bottom: 1px solid rgba(125, 125, 125, 0.15);
   margin-bottom: 2rem;
 }
 
