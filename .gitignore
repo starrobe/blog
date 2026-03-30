@@ -1,1 +1,8 @@
-worktrees/
+.nuxt
+.output
+.node_modules
+dist
+*.log
+.env
+node_modules/
+.data/
