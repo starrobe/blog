@@ -7,7 +7,7 @@ tags: [C++, 并发编程]
 
 > 选自《C++ Concurrency In Action》7.2.4
 
-### 数据结构
+## 数据结构
 
 ```cpp
 template <typename T>
@@ -32,7 +32,7 @@ class LockFreeStack {
 
 > `std::atomic<CountNodePtr>`超过8字节，~~可能~~并不是无锁的，主要学习如何通过计数避免资源过早释放
 
-#### 为什么引用计数
+### 为什么引用计数
 
 正常通过链表实现的无锁栈
 
@@ -61,7 +61,7 @@ public:
 
 因此在确保没有线程使用该结点前，不能释放该结点，引用计数可以解决该问题
 
-#### 为什么拆分引用计数
+### 为什么拆分引用计数
 
 > https://stackoverflow.com/questions/67371033/how-does-the-split-reference-counting-work-in-a-lock-free-stack
 
@@ -81,7 +81,7 @@ public:
 当其他线程引用结点时，外部计数加一。如果没有内部计数，在不再引用时，会递减计数，此时就需要
 与递增时一样(`IncreaseHeadCount()`)循环调用CAS
 
-### 入栈
+## 入栈
 
 1. 将当前结点的`next`指向栈顶`head`
 2. 将当前结点设置为`head`
@@ -102,7 +102,7 @@ void push(const T& value) {
 }
 ```
 
-### 出栈
+## 出栈
 
 出栈就是将栈顶(`head`)的`next`设为栈顶，然后删除旧的栈顶
 
@@ -168,7 +168,7 @@ std::shared_ptr<T> pop() {
 }
 ```
 
-### 内存模型
+## 内存模型
 
 ~~这部分更是重量级，个人水平有限~~
 

@@ -5,9 +5,9 @@ date: 2023-05-18
 tags: [C++]
 ---
 
-### 习惯C++
+## 习惯C++
 
-#### 条款01：视C++为一个语言联邦
+### 条款01：视C++为一个语言联邦
 
 C++高效编程守则视状况而变化，取决使用的是C++的哪一部分
 
@@ -16,7 +16,7 @@ C++高效编程守则视状况而变化，取决使用的是C++的哪一部分
 - Template C++
 - STL
 
-#### 条款02 尽量以const, enum, inline替换 #define
+### 条款02 尽量以const, enum, inline替换 #define
 
 当编译器不允许在class中为static常量赋初值，但又需要一个初值时
 
@@ -65,7 +65,7 @@ inline void callWithMax(const T& a, const T& b)
 - 对于单纯常量，最好以const对象或enum替换#define
 - 对于形似函数的宏，最好改用inline函数替换#define
 
-#### 条款03 尽可能使用const
+### 条款03 尽可能使用const
 
 在class中定义const成员函数时，如果出现const版本与非const版本内容过长并且重复时
 
@@ -97,7 +97,7 @@ char& operator[](std::size_t position)
 }
 ```
 
-#### 条款04 确定对象被使用前已先被初始化
+### 条款04 确定对象被使用前已先被初始化
 
 - 为内置型对象进行手工初始化，因为C++不保证初始化他们
 - 构造函数最好使用成员初始化列表，而不要在构造函数内使用赋值操作
@@ -105,31 +105,31 @@ char& operator[](std::size_t position)
 
     > local static对象指的是函数内的static对象
 
-### 构造/析构/赋值运算
+## 构造/析构/赋值运算
 
-#### 条款05 了解C++合成并调用了哪些函数
+### 条款05 了解C++合成并调用了哪些函数
 
-#### 条款06 不想使用编译器自动生成的函数，就应该明确拒接
+### 条款06 不想使用编译器自动生成的函数，就应该明确拒接
 
-#### 条款07 为多态基类声明virtual析构
+### 条款07 为多态基类声明virtual析构
 
 - 带多态时，基类应该声明一个虚析构。如果类有任何虚函数，它就应该有一个虚析构函数
 - 如果类的设计不是作为基类使用，或不是为了多态，就不应该声明虚析构函数
 
     > 虚函数会生成虚表指针，增加类的大小
 
-#### 条款08 别让异常逃离析构函数
+### 条款08 别让异常逃离析构函数
 
 - 析构函数不要吐出异常，如果一个被析构函数调用的函数抛出异常，析构函数应该捕捉任何异常，
 然后吞下它们或结束程序
 - 如果需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数执行该操作
 而不是在析构函数中执行操作
 
-#### 条款09 不在构造和析构函数过程中调用虚函数
+### 条款09 不在构造和析构函数过程中调用虚函数
 
-#### 条款10 令operator= 返回一个reference to *this
+### 条款10 令operator= 返回一个reference to *this
 
-#### 条款11 在operator= 中处理自赋值
+### 条款11 在operator= 中处理自赋值
 
 ```cpp
 class Bitmap { ... };
@@ -187,20 +187,20 @@ private:
     }
     ```
 
-#### 条款12 复制对象时不要遗漏成员
+### 条款12 复制对象时不要遗漏成员
 
 - 拷贝函数应该确保复制"对象的所有成员变量"以及"所有base class部分"
 - 拷贝构造与拷贝运算符不要相互调用，避免代码重复的话可共同调用第三个函数如init()
 
-### 资源管理
+## 资源管理
 
-#### 条款13 以对象管理资源
+### 条款13 以对象管理资源
 
 - 为防止资源泄露，请使用RAII对象，他们在构造函数中获得资源并在析构函数中释放资源
 
     > RAII即Resource Acquisition Is Initalization，资源获取即初始化
 
-#### 条款14 在资源管理类中小心拷贝行为
+### 条款14 在资源管理类中小心拷贝行为
 
 ```cpp
 class Lock
@@ -227,15 +227,15 @@ private:
     };
     ```
 
-#### 条款15 在资源管理类中提供对原始资源的访问
+### 条款15 在资源管理类中提供对原始资源的访问
 
 - 每个RAII class应该提供一个取得所管理资源的办法
     - 显示转换：定义get()
     - 隐式转换：类型转换运算符operator *type*() const;
 
-#### 条款16 成对使用new和delete时采取相同形式
+### 条款16 成对使用new和delete时采取相同形式
 
-#### 条款17 以独立语句将newed对象置入智能指针
+### 条款17 以独立语句将newed对象置入智能指针
 
 ```cpp
 int priority();
@@ -252,13 +252,13 @@ std::shared_ptr<Widget> pw(new Widget);
 processWidget(pw, priority());
 ```
 
-### 设计与声明
+## 设计与声明
 
-#### 条款18 让接口容易被正确使用，不易被误用
+### 条款18 让接口容易被正确使用，不易被误用
 
-#### 条款19 设计class犹如type
+### 条款19 设计class犹如type
 
-#### 条款20 传const引用替换传值
+### 条款20 传const引用替换传值
 
 - 尽量以*pass-py-reference-to-const*替换*pass-py-value*，前者通常比较高效，并可避免切割问题
 
@@ -267,20 +267,20 @@ processWidget(pw, priority());
 
 - 以上规则并不适用于内置类型，以及STL的迭代器和函数对象。对他们而言，*pass-py-value*往往比较适当
 
-#### 条款21 必须返回对象时不要返回引用
+### 条款21 必须返回对象时不要返回引用
 
-#### 条款22 将成员变量声明为private
+### 条款22 将成员变量声明为private
 
 protected并不比public更有封装性。当一个public变量被取消时，会破坏所有使用它的代码，protected同理，
 会破坏所有子类中使用它的代码。
 
 因此只有两种访问权限：private(提供封装)和其他(不提供封装)
 
-#### 条框23 以non-member、non-friend替代member函数
+### 条框23 以non-member、non-friend替代member函数
 
 可增加封装性、包裹弹性以及机能扩充性
 
-#### 条框24 若所有参数都需要类型转换，请采用non-member函数
+### 条框24 若所有参数都需要类型转换，请采用non-member函数
 
 ```cpp
 class Rational
@@ -307,7 +307,7 @@ const Rational operator*(const Rational& lhs, const Rational& rhs)
 }
 ```
 
-#### 条款25 考虑写个不抛异常的swap函数
+### 条款25 考虑写个不抛异常的swap函数
 
 - 当std::swap对自定义类型效率不高时，提供一个swap成员函数，并确定这个函数不抛出异常
 - 如果提供了一个member swap，也该提供一个non-member swap调用前者。对于非模板类也请特化std::swap
@@ -384,29 +384,29 @@ const Rational operator*(const Rational& lhs, const Rational& rhs)
     }
     ```
 
-### 实现
+## 实现
 
-#### 条款26 尽可能延后变量定义的时间
+### 条款26 尽可能延后变量定义的时间
 
-#### 条款27 少做类型转换
+### 条款27 少做类型转换
 
-#### 条款28 避免返回handles指向对象内部成分
+### 条款28 避免返回handles指向对象内部成分
 
 > handles(号码牌，用来取得某个对象)指引用、指针和迭代器
 
-#### 条款29 为异常安全努力
+### 条款29 为异常安全努力
 
-#### 条款30 透彻了解inline
+### 条款30 透彻了解inline
 
-#### 条款31 将文件的编译依存关系降到最低
+### 条款31 将文件的编译依存关系降到最低
 
-### 继承于面向对象设计
+## 继承于面向对象设计
 
-#### 条款32 public继承塑造出is-a关系
+### 条款32 public继承塑造出is-a关系
 
 `class derived : public base`即derived is a base
 
-#### 条款33 避免遮掩继承来的名称
+### 条款33 避免遮掩继承来的名称
 
 derived class 内的名称会遮掩base class 中的名称。为避免，可在基类使用using声明
 
@@ -425,17 +425,17 @@ public:
 };
 ```
 
-#### 条款34 区分接口设计与实现继承
+### 条款34 区分接口设计与实现继承
 
-#### 条款35 考虑virtual函数以外的其他选择
+### 条款35 考虑virtual函数以外的其他选择
 
 - non-virtual interface(NVI)手法。是*Template Method*设计模式的一种特殊形式，以public non-virtual
 成员函数包裹低访问性(private, protected)的virtual函数
 - 将virtual函数替换为函数指针或std::function对象，这是*Strategy*设计模式的一种形式
 
-#### 条款36 不重新定义继承而来的non-virtual函数
+### 条款36 不重新定义继承而来的non-virtual函数
 
-#### 条款37 不重新定义继承而来的缺省参数值
+### 条款37 不重新定义继承而来的缺省参数值
 
 ```cpp
 class Shape
@@ -459,7 +459,7 @@ pr.draw();
 当Rectangle::draw()的默认实参定义与基类一样时，如果Shape类的默认实参改变，也就必须同时修改
 Rectangle处的代码。可使用条款35中的NVI来解决，定义public函数调用virtual函数
 
-#### 条款38 复合的has-a与"根据某物实现出"
+### 条款38 复合的has-a与"根据某物实现出"
 
 - 在应用域，复合意味着has-a。如：Person有一个Address
 
@@ -483,7 +483,7 @@ Rectangle处的代码。可使用条款35中的NVI来解决，定义public函数
     }
     ```
 
-#### 条款39 审慎地使用private继承
+### 条款39 审慎地使用private继承
 
 - private继承意味着is-implemented-in-terms-of。通常比复合的级别低(~~优先使用聚合，但不知道此处级别低有没有其他含义~~)。但当子类需要访问基类protected
 成员或需要重新定义virtual函数时，可以使用private继承
@@ -504,11 +504,11 @@ Rectangle处的代码。可使用条款35中的NVI来解决，定义public函数
     // 但是class B: private A { int i; }; 这样sizeof(B) == sizeof(int)成立
     ```
 
-#### 条款40 审慎使用多重继承
+### 条款40 审慎使用多重继承
 
-### 模板与泛型编程
+## 模板与泛型编程
 
-#### 条款41 了解隐式接口和编译期多态
+### 条款41 了解隐式接口和编译期多态
 
 ```cpp
 class Widget
@@ -553,12 +553,12 @@ w的类型T**好像**必须支持size，normalize和swap成员函数以及其他
 凡是涉及w的函数调用，例如`operator>`和operator!=，可能造成template具现化。以不同的template参数具现化
 function template会导致调用不同的函数，这就是编译期多态
 
-#### 条款42 typename的双重意义
+### 条款42 typename的双重意义
 
 - 声明template参数时，class与typename是一样的
 - 请使用typename标识嵌套从属类型名称，但不得在继承时的基类列表和成员初始化列表内以它作为基类修饰符
 
-#### 条款43 处理模板化基类内的名称
+### 条款43 处理模板化基类内的名称
 
 ```cpp
 template<typename T>
@@ -584,11 +584,11 @@ public:
 - 使用using声明基类函数，`using MsgSender<T>::sendClear;`
 - 明确指出函数位于基类，`MsgSender<T>::sendClear();`，但如果被调用的为虚函数，就只会调用基类虚函数了
 
-#### 条款44 将与参数无关的代码抽离template
+### 条款44 将与参数无关的代码抽离template
 
-#### 条款45 运用成员函数模板接受所有兼容类型
+### 条款45 运用成员函数模板接受所有兼容类型
 
-#### 条款46 需要类型转换时请为模板定义非成员模板
+### 条款46 需要类型转换时请为模板定义非成员模板
 
 ```cpp
 template<typename T>
@@ -669,7 +669,7 @@ const Rational<T> operator*(const Rational<T>& lhs, const Rational<T>& rhs)
     }
     ```
 
-#### 条款47 使用traits classes表现类型信息
+### 条款47 使用traits classes表现类型信息
 
 - Traits classes使得类型相关信息在编译期可用，它们以template和template特化完成实现
 - 通过重载，traits classes可以在编译期对类型进行if...else
@@ -709,11 +709,11 @@ const Rational<T> operator*(const Rational<T>& lhs, const Rational<T>& rhs)
     }
     ```
 
-#### 条款48 template元编程
+### 条款48 template元编程
 
-### 定制new和delete
+## 定制new和delete
 
-#### 条款49 new-handler的行为
+### 条款49 new-handler的行为
 
 当operator new抛出异常前，会先调用客户指定的错误处理函数new-handler。为了指定该函数，必须调用`set_new_handler`
 
@@ -845,9 +845,9 @@ Widget* p2 = new(std::nothrow) Widget;  // 失败时返回0
 
 > nothrow只是保证operator new，而new分配内存调用operator new后还会调用构造函数，因此new(std::nothrow) Widget还是会有异常
 
-#### 条款50 new和delete的合理替换时机
+### 条款50 new和delete的合理替换时机
 
-#### 条款51 编写new和delete时需固守常规
+### 条款51 编写new和delete时需固守常规
 
 - operator new应该含有一个无限循环，在循环中分配内存，如果无法满足内存需求，就该调用new-handler。同时
 也应该有处理0字节的申请。以及class专属版本中，如果子类(Derived)继承父类(Base)的operator new，此时的大小
@@ -906,7 +906,7 @@ Widget* p2 = new(std::nothrow) Widget;  // 失败时返回0
     }
     ```
 
-#### 条款52 写了placement new也应有placement delete
+### 条款52 写了placement new也应有placement delete
 
 - 写了placement operator new也应该写出对于的placement operator delete
 
