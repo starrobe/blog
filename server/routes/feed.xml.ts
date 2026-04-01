@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
   const baseUrl = config.public.siteUrl || 'http://localhost:3000'
   const siteName = config.public.siteName || 'My Blog'
   const siteDescription = config.public.siteDescription || 'A blog built with Nuxt'
+  const siteLanguage = config.public.siteLanguage || 'en'
 
   const posts = await queryCollection(event, 'blog')
     .order('date', 'DESC')
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event) => {
     <title>${escapeXml(siteName)}</title>
     <link>${baseUrl}</link>
     <description>${escapeXml(siteDescription)}</description>
-    <language>zh-CN</language>
+    <language>${siteLanguage}</language>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     ${posts.map((post) => `
     <item>
@@ -30,7 +31,7 @@ export default defineEventHandler(async (event) => {
       <link>${baseUrl}${post.path}</link>
       <guid>${baseUrl}${post.path}</guid>
       <description>${escapeXml(post.description || '')}</description>
-      <pubDate>${post.date ? new Date(post.date).toUTCString() : ''}</pubDate>
+      ${post.date ? `<pubDate>${new Date(post.date).toUTCString()}</pubDate>` : ''}
     </item>`).join('')}
   </channel>
 </rss>`

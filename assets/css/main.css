@@ -1,12 +1,14 @@
 /* antfu.me style CSS variables */
 :root {
+  /* Background colors */
   --c-bg: #fff;
   --c-scrollbar: #eee;
   --c-scrollbar-hover: #bbb;
-  --fg-light: #888;
-  --fg: #555;
-  --fg-deep: #222;
-  --fg-deeper: #000;
+  /* Text colors (from light to dark) */
+  --fg-light: #888;       /* Muted text, metadata */
+  --fg: #555;             /* Base text color */
+  --fg-deep: #222;        /* Emphasis text: strong, em, code, table headers */
+  --fg-deeper: #000;      /* Headings: h1, h2, logo */
   color-scheme: light dark;
 }
 

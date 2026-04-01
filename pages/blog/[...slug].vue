@@ -18,6 +18,14 @@ useSeoMeta({
   ogTitle: () => post.value?.title,
   ogDescription: () => post.value?.description,
 })
+
+useSchemaOrg([
+  defineArticle({
+    headline: () => post.value?.title,
+    description: () => post.value?.description,
+    datePublished: () => post.value?.date,
+  }),
+])
 </script>
 
 <template>
@@ -39,9 +47,9 @@ useSeoMeta({
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <RouterLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
+      <NuxtLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
         cd ..
-      </RouterLink>
+      </NuxtLink>
     </div>
   </article>
 </template>

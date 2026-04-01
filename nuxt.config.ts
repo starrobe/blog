@@ -53,6 +53,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'My Blog',
       siteDescription: process.env.NUXT_PUBLIC_SITE_DESCRIPTION || 'A blog built with Nuxt',
+      siteLanguage: process.env.NUXT_PUBLIC_SITE_LANGUAGE || 'en',
     },
   },
 

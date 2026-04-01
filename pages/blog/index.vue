@@ -2,11 +2,15 @@
 const route = useRoute()
 const basePath = route.path.split('/').slice(0, -1).join('/') || '/'
 
-const { data: posts } = await useAsyncData('posts', () =>
+const { data: posts, error } = await useAsyncData('posts', () =>
   queryCollection('blog')
     .order('date', 'DESC')
     .all()
 )
+
+if (error.value) {
+  throw createError({ statusCode: 500, message: 'Failed to load posts' })
+}
 
 useSeoMeta({
   title: 'Blog',
@@ -54,9 +58,9 @@ function isSameYear(a?: string, b?: string) {
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <RouterLink :to="basePath">
+      <NuxtLink :to="basePath">
         cd ..
-      </RouterLink>
+      </NuxtLink>
     </div>
   </div>
 </template>

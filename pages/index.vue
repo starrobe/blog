@@ -1,7 +1,11 @@
 <script setup lang="ts">
-const { data: about } = await useAsyncData('about', () =>
+const { data: about, error } = await useAsyncData('about', () =>
   queryCollection('home').first()
 )
+
+if (error.value) {
+  throw createError({ statusCode: 500, message: 'Failed to load page data' })
+}
 
 useSeoMeta({
   title: () => about.value?.name ? `${about.value.name} | ${about.value.title}` : 'Home',
