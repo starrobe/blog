@@ -18,14 +18,6 @@ useSeoMeta({
   ogTitle: () => post.value?.title,
   ogDescription: () => post.value?.description,
 })
-
-useSchemaOrg([
-  defineArticle({
-    headline: () => post.value?.title,
-    description: () => post.value?.description,
-    datePublished: () => post.value?.date,
-  }),
-])
 </script>
 
 <template>
