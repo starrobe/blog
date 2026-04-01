@@ -11,6 +11,31 @@ const { data: post } = await useAsyncData(`post-${slug}`, () =>
 if (!post.value) {
   throw createError({ statusCode: 404, message: 'Post not found' })
 }
+
+useSeoMeta({
+  title: () => post.value?.title ? `${post.value.title} | Blog` : 'Blog',
+  description: () => post.value?.description,
+  ogTitle: () => post.value?.title,
+  ogDescription: () => post.value?.description,
+})
+
+useHead({
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.value?.title,
+      datePublished: post.value?.date,
+      description: post.value?.description,
+      author: {
+        '@type': 'Person',
+        name: '阿东',
+      },
+      url: `https://starrobe.cn/blog/${slug}`,
+    }),
+  }],
+})
 </script>
 
 <template>
@@ -32,9 +57,9 @@ if (!post.value) {
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <RouterLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
+      <NuxtLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
         cd ..
-      </RouterLink>
+      </NuxtLink>
     </div>
   </article>
 </template>
@@ -43,32 +68,5 @@ if (!post.value) {
 header {
   padding: 3rem 0 0;
   margin-bottom: 2rem;
-}
-
-.cd-link {
-  margin-top: 3rem;
-  padding-bottom: 2rem;
-}
-
-.cd-link {
-  font-family: 'DM Mono', 'Input Mono', 'Fira Code', ui-monospace, monospace;
-}
-
-.cd-link .prompt {
-  color: var(--fg-light);
-  opacity: 0.5;
-}
-
-.cd-link a {
-  color: var(--fg-light);
-  opacity: 0.5;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(125, 125, 125, 0.3);
-  transition: opacity 0.2s, border-color 0.2s;
-}
-
-.cd-link a:hover {
-  opacity: 0.75;
-  border-bottom-color: var(--fg-light);
 }
 </style>

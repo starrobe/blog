@@ -7,14 +7,27 @@ interface Heading {
 
 const headings = ref<Heading[]>([])
 const route = useRoute()
+let retryCount = 0
+const MAX_RETRIES = 20
 
 function updateHeadings() {
   const prose = document.querySelector('.prose')
-  if (!prose) return
+  if (!prose) {
+    if (retryCount < MAX_RETRIES) {
+      retryCount++
+      setTimeout(updateHeadings, 50)
+    }
+    return
+  }
 
+  retryCount = 0
   const els = prose.querySelectorAll('h2, h3')
-  const extracted: Heading[] = []
+  if (els.length === 0) {
+    headings.value = []
+    return
+  }
 
+  const extracted: Heading[] = []
   els.forEach((el, i) => {
     if (!el.id && el.textContent) {
       el.id = el.textContent.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') || `heading-${i}`
@@ -30,15 +43,13 @@ function updateHeadings() {
 }
 
 onMounted(() => {
-  nextTick(() => {
-    updateHeadings()
-  })
+  nextTick(updateHeadings)
 })
 
 watch(() => route.path, () => {
-  nextTick(() => {
-    updateHeadings()
-  })
+  // Clear headings immediately when route changes
+  headings.value = []
+  nextTick(updateHeadings)
 })
 </script>
 

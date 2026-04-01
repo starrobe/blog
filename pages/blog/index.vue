@@ -1,11 +1,21 @@
 <script setup lang="ts">
 const route = useRoute()
+const basePath = route.path.split('/').slice(0, -1).join('/') || '/'
 
-const { data: posts } = await useAsyncData('posts', () =>
+const { data: posts, error } = await useAsyncData('posts', () =>
   queryCollection('blog')
     .order('date', 'DESC')
     .all()
 )
+
+if (error.value) {
+  throw createError({ statusCode: 500, message: 'Failed to load posts' })
+}
+
+useSeoMeta({
+  title: 'Blog',
+  description: 'Articles about programming and technology',
+})
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', {
@@ -48,9 +58,9 @@ function isSameYear(a?: string, b?: string) {
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <RouterLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
+      <NuxtLink :to="basePath">
         cd ..
-      </RouterLink>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -125,33 +135,6 @@ function isSameYear(a?: string, b?: string) {
 .empty {
   color: var(--fg-light);
   padding: 2rem 0;
-}
-
-.cd-link {
-  margin-top: 3rem;
-  padding-bottom: 2rem;
-}
-
-.cd-link {
-  font-family: 'DM Mono', 'Input Mono', 'Fira Code', ui-monospace, monospace;
-}
-
-.cd-link .prompt {
-  color: var(--fg-light);
-  opacity: 0.5;
-}
-
-.cd-link a {
-  color: var(--fg-light);
-  opacity: 0.5;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(125, 125, 125, 0.3);
-  transition: opacity 0.2s, border-color 0.2s;
-}
-
-.cd-link a:hover {
-  opacity: 0.75;
-  border-bottom-color: var(--fg-light);
 }
 
 @media (max-width: 768px) {

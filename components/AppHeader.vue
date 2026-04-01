@@ -26,6 +26,7 @@ function toTop() {
     </NuxtLink>
 
     <button
+      aria-label="Scroll to top"
       title="Scroll to top"
       class="scroll-top-btn"
       :class="scroll > 300 ? 'visible' : 'hidden'"

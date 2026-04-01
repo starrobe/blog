@@ -1,5 +1,5 @@
 {
-  "name": "my-blog",
+  "name": "blog",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@nuxt/content": "^3.0.0",
@@ -24,6 +26,8 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/eslint-config": "^1.15.2",
-    "typescript": "^6.0.2"
+    "@nuxt/test-utils": "^4.0.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
   }
 }

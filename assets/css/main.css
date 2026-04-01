@@ -1,19 +1,20 @@
 /* antfu.me style CSS variables */
 :root {
+  /* Background colors */
   --c-bg: #fff;
   --c-scrollbar: #eee;
   --c-scrollbar-hover: #bbb;
-  --fg-light: #888;
-  --fg: #555;
-  --fg-deep: #222;
-  --fg-deeper: #000;
-  --c-text: var(--fg);
+  /* Text colors (from light to dark) */
+  --fg-light: #888;       /* Muted text, metadata */
+  --fg: #555;             /* Base text color */
+  --fg-deep: #222;        /* Emphasis text: strong, em, code, table headers */
+  --fg-deeper: #000;      /* Headings: h1, h2, logo */
   color-scheme: light dark;
 }
 
 html {
   background-color: var(--c-bg);
-  color: var(--c-text);
+  color: var(--fg);
   overflow-x: hidden;
   overflow-y: scroll;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -85,7 +86,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--c-bg);
-  color: var(--c-text);
+  color: var(--fg);
 }
 
 /* Links */
@@ -511,6 +512,31 @@ article .tags {
   article header {
     padding: 2rem 0 1rem;
   }
+}
+
+/* CD link (back navigation) */
+.cd-link {
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+  font-family: 'DM Mono', 'Input Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+.cd-link .prompt {
+  color: var(--fg-light);
+  opacity: 0.5;
+}
+
+.cd-link a {
+  color: var(--fg-light);
+  opacity: 0.5;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(125, 125, 125, 0.3);
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.cd-link a:hover {
+  opacity: 0.75;
+  border-bottom-color: var(--fg-light);
 }
 
 /* View Transitions API for theme switching */

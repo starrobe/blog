@@ -5,8 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <h4 :id="id">
-    <a v-if="id" :href="'#' + id" class="header-anchor" aria-hidden="true">#</a>
+  <ProseHeading :id="id" :level="4">
     <slot />
-  </h4>
+  </ProseHeading>
 </template>
