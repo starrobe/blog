@@ -5,7 +5,12 @@ const isDark = useIsDark()
 </script>
 
 <template>
-  <button class="toggle" title="Toggle Color Scheme" @click="toggleDark">
+  <button
+    class="toggle"
+    :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+    title="Toggle Color Scheme"
+    @click="toggleDark"
+  >
     <ClientOnly>
       <!-- Sun icon (shown in light mode) -->
       <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

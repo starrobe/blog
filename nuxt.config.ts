@@ -48,6 +48,14 @@ export default defineNuxtConfig({
     format: ['webp', 'avif'],
   },
 
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'My Blog',
+      siteDescription: process.env.NUXT_PUBLIC_SITE_DESCRIPTION || 'A blog built with Nuxt',
+    },
+  },
+
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
   },

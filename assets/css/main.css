@@ -7,13 +7,12 @@
   --fg: #555;
   --fg-deep: #222;
   --fg-deeper: #000;
-  --c-text: var(--fg);
   color-scheme: light dark;
 }
 
 html {
   background-color: var(--c-bg);
-  color: var(--c-text);
+  color: var(--fg);
   overflow-x: hidden;
   overflow-y: scroll;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -85,7 +84,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--c-bg);
-  color: var(--c-text);
+  color: var(--fg);
 }
 
 /* Links */

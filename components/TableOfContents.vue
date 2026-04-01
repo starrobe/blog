@@ -7,16 +7,20 @@ interface Heading {
 
 const headings = ref<Heading[]>([])
 const route = useRoute()
+let retryCount = 0
+const MAX_RETRIES = 20
 
 function updateHeadings() {
-  // Wait for prose element to be rendered
   const prose = document.querySelector('.prose')
   if (!prose) {
-    // Retry after a short delay if not found
-    setTimeout(updateHeadings, 50)
+    if (retryCount < MAX_RETRIES) {
+      retryCount++
+      setTimeout(updateHeadings, 50)
+    }
     return
   }
 
+  retryCount = 0
   const els = prose.querySelectorAll('h2, h3')
   if (els.length === 0) {
     headings.value = []

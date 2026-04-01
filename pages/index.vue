@@ -2,12 +2,17 @@
 const { data: about } = await useAsyncData('about', () =>
   queryCollection('home').first()
 )
+
+useSeoMeta({
+  title: () => about.value?.name ? `${about.value.name} | ${about.value.title}` : 'Home',
+  description: () => about.value?.description,
+})
 </script>
 
 <template>
   <article v-if="about">
     <div class="home-content slide-enter-content">
-      <img :src="about.avatar" alt="Avatar" class="avatar">
+      <NuxtImg :src="about.avatar" :alt="`${about.name} avatar`" class="avatar" width="120" height="120" />
       <h1 class="name">{{ about.name }}</h1>
       <p class="description">{{ about.description }}</p>
       <div class="contact-icons">
