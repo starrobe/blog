@@ -51,4 +51,10 @@ export default defineNuxtConfig({
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
   },
+
+  nitro: {
+    prerender: {
+      routes: ['/feed.xml'],
+    },
+  },
 })
