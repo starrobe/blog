@@ -18,6 +18,24 @@ useSeoMeta({
   ogTitle: () => post.value?.title,
   ogDescription: () => post.value?.description,
 })
+
+useHead({
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.value?.title,
+      datePublished: post.value?.date,
+      description: post.value?.description,
+      author: {
+        '@type': 'Person',
+        name: '阿东',
+      },
+      url: `https://starrobe.cn/blog/${slug}`,
+    }),
+  }],
+})
 </script>
 
 <template>
