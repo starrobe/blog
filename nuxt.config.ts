@@ -67,11 +67,34 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
+    head: {
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+      ],
+    },
   },
 
   nitro: {
     prerender: {
       routes: ["/feed.xml"],
     },
+    routeRules: {
+      '/_nuxt/**': {
+        headers: { 'Cache-Control': 'public, max-age=31536000, immutable' },
+      },
+      '/**': {
+        headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=86400' },
+      },
+      '/feed.xml': {
+        headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=7200' },
+      },
+    },
   },
+
+  experimental: {
+    payloadExtraction: true,
+  },
+
+
 });
