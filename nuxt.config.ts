@@ -96,5 +96,19 @@ export default defineNuxtConfig({
     payloadExtraction: true,
   },
 
-
+  vite: {
+    optimizeDeps: {
+      include: [
+        'remark-gfm',
+        'remark-emoji',
+        'remark-mdc',
+        'remark-rehype',
+        'rehype-raw',
+        'parse5',
+        'unist-util-visit',
+        'unified',
+        'debug',
+      ],
+    },
+  },
 });
