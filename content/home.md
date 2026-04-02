@@ -1,5 +1,5 @@
 ---
-title: About
+title: Home
 name: 阿东
 description: Programming enthusiast, maybe.
 avatar: https://starrobe-blog.oss-cn-beijing.aliyuncs.com/avatar/jashinchan.jpg

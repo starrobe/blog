@@ -5,22 +5,27 @@ interface Heading {
   depth: number
 }
 
+const props = defineProps<{
+  proseElement?: HTMLElement | null
+}>()
+
 const headings = ref<Heading[]>([])
 const route = useRoute()
-let retryCount = 0
+const retryCount = ref(0)
 const MAX_RETRIES = 20
+let timeoutId: ReturnType<typeof setTimeout> | null = null
 
 function updateHeadings() {
-  const prose = document.querySelector('.prose')
+  const prose = props.proseElement
   if (!prose) {
-    if (retryCount < MAX_RETRIES) {
-      retryCount++
-      setTimeout(updateHeadings, 50)
+    if (retryCount.value < MAX_RETRIES) {
+      retryCount.value++
+      timeoutId = setTimeout(updateHeadings, 50)
     }
     return
   }
 
-  retryCount = 0
+  retryCount.value = 0
   const els = prose.querySelectorAll('h2, h3')
   if (els.length === 0) {
     headings.value = []
@@ -46,10 +51,22 @@ onMounted(() => {
   nextTick(updateHeadings)
 })
 
+onUnmounted(() => {
+  if (timeoutId) {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
+})
+
 watch(() => route.path, () => {
   // Clear headings immediately when route changes
   headings.value = []
+  retryCount.value = 0
   nextTick(updateHeadings)
+})
+
+watch(() => props.proseElement, () => {
+  updateHeadings()
 })
 </script>
 

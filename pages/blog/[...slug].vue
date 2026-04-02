@@ -8,6 +8,10 @@ const { data: post } = await useAsyncData(`post-${slug}`, () =>
     .first()
 )
 
+const { data: homeData } = await useAsyncData('home', () =>
+  queryCollection('home').first()
+)
+
 if (!post.value) {
   throw createError({ statusCode: 404, message: 'Post not found' })
 }
@@ -30,17 +34,19 @@ useHead({
       description: post.value?.description,
       author: {
         '@type': 'Person',
-        name: '阿东',
+        name: homeData.value?.name ?? '阿东',
       },
       url: `https://starrobe.cn/blog/${slug}`,
     }),
   }],
 })
+
+const proseRef = ref<HTMLElement | null>(null)
 </script>
 
 <template>
   <article v-if="post" class="page-container slide-enter-content">
-    <TableOfContents />
+    <TableOfContents :prose-element="proseRef" />
     <header>
       <h1>{{ post.title }}</h1>
       <div class="meta">
@@ -51,7 +57,7 @@ useHead({
       </div>
     </header>
 
-    <div class="prose">
+    <div ref="proseRef" class="prose">
       <ContentRenderer :value="post" />
     </div>
 

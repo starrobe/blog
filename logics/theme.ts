@@ -1,3 +1,5 @@
+import { useState } from '#imports'
+
 export function useIsDark() {
   const isDark = useState('isDark', () => false)
 
