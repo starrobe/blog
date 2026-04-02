@@ -123,6 +123,7 @@ const classListMock = {
 const documentMock = {
   documentElement: {
     classList: classListMock,
+    animate: vi.fn(),
   },
   startViewTransition: undefined,
 }
@@ -131,7 +132,13 @@ vi.stubGlobal('document', documentMock)
 // Mock window
 vi.stubGlobal('window', {
   matchMedia: matchMediaMock,
+  innerWidth: 1920,
+  innerHeight: 1080,
 })
+
+// Mock innerWidth/innerHeight (used directly without window.)
+vi.stubGlobal('innerWidth', 1920)
+vi.stubGlobal('innerHeight', 1080)
 
 describe('useIsDark', () => {
   beforeEach(() => {
@@ -214,7 +221,7 @@ describe('toggleDark', () => {
     toggleDark({ clientX: 100, clientY: 100 } as MouseEvent)
 
     expect(classListMock.remove).toHaveBeenCalledWith('dark', 'light')
-    expect(classListMock.add).toHaveBeenCalled()
+    expect(classListMock.add).toHaveBeenCalledWith('dark')
     expect(localStorageMock.setItem).toHaveBeenCalled()
   })
 
@@ -236,5 +243,31 @@ describe('toggleDark', () => {
     toggleDark({ clientX: 100, clientY: 100 } as MouseEvent)
 
     expect(classListMock.add).toHaveBeenCalledWith('light')
+  })
+
+  it('should use view transition when supported', async () => {
+    localStorageMock.getItem.mockReturnValue('light')
+
+    let transitionCallback: (() => Promise<void>) | undefined
+    const transitionMock = {
+      ready: Promise.resolve(),
+      finished: Promise.resolve(),
+    }
+    // @ts-expect-error adding view transition support
+    document.startViewTransition = vi.fn((callback: () => Promise<void>) => {
+      transitionCallback = callback
+      return transitionMock
+    })
+
+    toggleDark({ clientX: 100, clientY: 100 } as MouseEvent)
+
+    // Execute the callback to simulate view transition behavior
+    if (transitionCallback) {
+      await transitionCallback()
+    }
+
+    expect(document.startViewTransition).toHaveBeenCalled()
+    expect(classListMock.remove).toHaveBeenCalledWith('dark', 'light')
+    expect(classListMock.add).toHaveBeenCalledWith('dark')
   })
 })
