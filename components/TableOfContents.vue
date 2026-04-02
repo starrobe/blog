@@ -5,13 +5,17 @@ interface Heading {
   depth: number
 }
 
+const props = defineProps<{
+  proseElement?: HTMLElement | null
+}>()
+
 const headings = ref<Heading[]>([])
 const route = useRoute()
 let retryCount = 0
 const MAX_RETRIES = 20
 
 function updateHeadings() {
-  const prose = document.querySelector('.prose')
+  const prose = props.proseElement
   if (!prose) {
     if (retryCount < MAX_RETRIES) {
       retryCount++
@@ -50,6 +54,10 @@ watch(() => route.path, () => {
   // Clear headings immediately when route changes
   headings.value = []
   nextTick(updateHeadings)
+})
+
+watch(() => props.proseElement, () => {
+  updateHeadings()
 })
 </script>
 
