@@ -68,9 +68,15 @@ export default defineNuxtConfig({
   app: {
     baseURL: process.env.NUXT_PUBLIC_BASE_URL || undefined,
     head: {
+      script: [
+        {
+          innerHTML: `(function(){var s=localStorage.getItem('nuxt-color-mode');if(s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.add('light')}})()`,
+        },
+      ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap' },
       ],
     },
   },
@@ -98,17 +104,7 @@ export default defineNuxtConfig({
 
   vite: {
     optimizeDeps: {
-      include: [
-        'remark-gfm',
-        'remark-emoji',
-        'remark-mdc',
-        'remark-rehype',
-        'rehype-raw',
-        'parse5',
-        'unist-util-visit',
-        'unified',
-        'debug',
-      ],
+      include: [],
     },
   },
 });

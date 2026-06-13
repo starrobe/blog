@@ -23,7 +23,7 @@ async function copyCode() {
 
 <template>
   <div class="code-block-wrapper">
-    <pre ref="preRef" :class="$props.class"><slot /></pre>
+    <pre ref="preRef" :class="$attrs.class"><slot /></pre>
     <button
       :aria-label="copied ? 'Code copied to clipboard' : 'Copy code to clipboard'"
       :title="copied ? 'Copied!' : 'Copy code'"

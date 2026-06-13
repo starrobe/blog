@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const slug = Array.isArray(route.params.slug) ? route.params.slug.join('/') : route.params.slug
+const parentPath = useParentPath()
 
 const { data: post } = await useAsyncData(`post-${slug}`, () =>
   queryCollection('blog')
@@ -63,16 +64,9 @@ const proseRef = ref<HTMLElement | null>(null)
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <NuxtLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
+      <NuxtLink :to="parentPath">
         cd ..
       </NuxtLink>
     </div>
   </article>
 </template>
-
-<style scoped>
-header {
-  padding: 3rem 0 0;
-  margin-bottom: 2rem;
-}
-</style>

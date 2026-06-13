@@ -71,13 +71,6 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .logo-path,
-  .logo-dot {
-    animation: logo-draw 16s ease forwards infinite;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .logo-path {
     stroke-dasharray: none;

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const route = useRoute()
-const basePath = route.path.split('/').slice(0, -1).join('/') || '/'
+const parentPath = useParentPath()
 
 const { data: posts, error } = await useAsyncData('posts', () =>
   queryCollection('blog')
@@ -58,7 +57,7 @@ function isSameYear(a?: string, b?: string) {
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <NuxtLink :to="basePath">
+      <NuxtLink :to="parentPath">
         cd ..
       </NuxtLink>
     </div>

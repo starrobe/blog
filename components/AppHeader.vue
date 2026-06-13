@@ -153,8 +153,5 @@ function toTop() {
     gap: 1rem;
   }
 
-  .hide-mobile {
-    display: none;
-  }
 }
 </style>

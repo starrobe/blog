@@ -11,21 +11,21 @@ const props = defineProps<{
 
 const headings = ref<Heading[]>([])
 const route = useRoute()
-const retryCount = ref(0)
+let retryCount = 0
 const MAX_RETRIES = 20
 let timeoutId: ReturnType<typeof setTimeout> | null = null
 
 function updateHeadings() {
   const prose = props.proseElement
   if (!prose) {
-    if (retryCount.value < MAX_RETRIES) {
-      retryCount.value++
+    if (retryCount < MAX_RETRIES) {
+      retryCount++
       timeoutId = setTimeout(updateHeadings, 50)
     }
     return
   }
 
-  retryCount.value = 0
+  retryCount = 0
   const els = prose.querySelectorAll('h2, h3')
   if (els.length === 0) {
     headings.value = []
@@ -61,7 +61,7 @@ onUnmounted(() => {
 watch(() => route.path, () => {
   // Clear headings immediately when route changes
   headings.value = []
-  retryCount.value = 0
+  retryCount = 0
   nextTick(updateHeadings)
 })
 
