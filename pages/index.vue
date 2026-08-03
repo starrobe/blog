@@ -72,6 +72,8 @@ useSeoMeta({
 }
 
 .name {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-synthesis: none;
   font-size: 1.75rem;
   font-weight: 500;
   color: var(--fg);
@@ -79,6 +81,8 @@ useSeoMeta({
 }
 
 .description {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-synthesis: none;
   font-size: 1rem;
   color: var(--fg-light);
   margin-bottom: 2rem;

@@ -1,6 +1,5 @@
 ---
 title: 链表
-description: 笔记
 date: 2025-11-28
 tags: [算法]
 ---

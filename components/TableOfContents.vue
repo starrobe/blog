@@ -11,35 +11,82 @@ const props = defineProps<{
 
 const headings = ref<Heading[]>([])
 const route = useRoute()
-const retryCount = ref(0)
+
 const MAX_RETRIES = 20
+let retryCount = 0
 let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+/** CJK-friendly slug used only as a fallback when a heading has no id. */
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\p{L}\p{N}-]/gu, '')
+    .replace(/-+/g, '-')
+}
+
+/** Generate a unique id, appending -1/-2… on collision. */
+function generateHeadingId(text: string, used: Set<string>): string {
+  const base = slugify(text) || 'heading'
+  let id = base
+  let n = 1
+  while (used.has(id)) {
+    id = `${base}-${n++}`
+  }
+  used.add(id)
+  return id
+}
+
+/**
+ * Extract the heading's visible text, excluding the "#" anchor link that Nuxt
+ * Content inserts into headings (its text would otherwise leak into the TOC).
+ */
+function getHeadingText(el: Element): string {
+  const clone = el.cloneNode(true) as HTMLElement
+  clone.querySelectorAll('.header-anchor').forEach((anchor) => anchor.remove())
+  return clone.textContent?.trim() || ''
+}
+
+function clearRetry() {
+  if (timeoutId) {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
+  retryCount = 0
+}
 
 function updateHeadings() {
   const prose = props.proseElement
   if (!prose) {
-    if (retryCount.value < MAX_RETRIES) {
-      retryCount.value++
+    if (retryCount < MAX_RETRIES) {
+      retryCount++
       timeoutId = setTimeout(updateHeadings, 50)
     }
     return
   }
 
-  retryCount.value = 0
+  clearRetry()
+
   const els = prose.querySelectorAll('h2, h3')
   if (els.length === 0) {
     headings.value = []
     return
   }
 
+  const usedIds = new Set<string>()
   const extracted: Heading[] = []
-  els.forEach((el, i) => {
-    if (!el.id && el.textContent) {
-      el.id = el.textContent.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') || `heading-${i}`
+  els.forEach((el) => {
+    const text = getHeadingText(el)
+    // Prefer the id already assigned by Nuxt Content; only fall back when missing.
+    if (!el.id) {
+      el.id = generateHeadingId(text, usedIds)
+    } else {
+      usedIds.add(el.id)
     }
     extracted.push({
       id: el.id,
-      text: el.textContent || '',
+      text,
       depth: parseInt(el.tagName[1]),
     })
   })
@@ -51,17 +98,12 @@ onMounted(() => {
   nextTick(updateHeadings)
 })
 
-onUnmounted(() => {
-  if (timeoutId) {
-    clearTimeout(timeoutId)
-    timeoutId = null
-  }
-})
+onUnmounted(clearRetry)
 
 watch(() => route.path, () => {
-  // Clear headings immediately when route changes
+  // Cancel any pending retry and clear headings immediately when the route changes
+  clearRetry()
   headings.value = []
-  retryCount.value = 0
   nextTick(updateHeadings)
 })
 

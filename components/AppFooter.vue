@@ -1,7 +1,15 @@
+<script setup lang="ts">
+const { data: homeData } = await useAsyncData('footer-home', () =>
+  queryCollection('home').first()
+)
+
+const year = new Date().getFullYear()
+</script>
+
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <p>© {{ new Date().getFullYear() }} Adon</p>
+      <p>© {{ year }} {{ homeData?.name ?? 'Adon' }}</p>
     </div>
   </footer>
 </template>

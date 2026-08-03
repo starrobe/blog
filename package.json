@@ -26,6 +26,7 @@
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/test-utils": "^4.0.0",
+    "better-sqlite3": "^12.10.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2"
   }

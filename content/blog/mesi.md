@@ -1,6 +1,5 @@
 ---
 title: MESI协议以及内存屏障
-description: 笔记
 date: 2023-08-10
 tags: [并发编程]
 ---

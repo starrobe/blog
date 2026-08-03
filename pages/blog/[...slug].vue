@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const slug = Array.isArray(route.params.slug) ? route.params.slug.join('/') : route.params.slug
+const parentPath = useParentPath()
 
 const { data: post } = await useAsyncData(`post-${slug}`, () =>
   queryCollection('blog')
@@ -15,6 +16,8 @@ const { data: homeData } = await useAsyncData('home', () =>
 if (!post.value) {
   throw createError({ statusCode: 404, message: 'Post not found' })
 }
+
+const config = useRuntimeConfig()
 
 useSeoMeta({
   title: () => post.value?.title ? `${post.value.title} | Blog` : 'Blog',
@@ -36,7 +39,7 @@ useHead({
         '@type': 'Person',
         name: homeData.value?.name ?? '阿东',
       },
-      url: `https://starrobe.cn/blog/${slug}`,
+      url: `${config.public.siteUrl}/blog/${slug}`,
     }),
   }],
 })
@@ -63,16 +66,9 @@ const proseRef = ref<HTMLElement | null>(null)
 
     <div class="cd-link">
       <span class="prompt">> </span>
-      <NuxtLink :to="route.path.split('/').slice(0, -1).join('/') || '/'">
+      <NuxtLink :to="parentPath">
         cd ..
       </NuxtLink>
     </div>
   </article>
 </template>
-
-<style scoped>
-header {
-  padding: 3rem 0 0;
-  margin-bottom: 2rem;
-}
-</style>

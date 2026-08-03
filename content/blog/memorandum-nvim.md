@@ -1,6 +1,5 @@
 ---
 title: nvim学习记录
-description: 备忘录
 date: 2023-06-22
 tags: [nvim]
 ---

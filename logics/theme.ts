@@ -3,15 +3,13 @@ import { useState } from '#imports'
 export function useIsDark() {
   const isDark = useState('isDark', () => false)
 
-  // Initialize from localStorage on client
   if (import.meta.client) {
-    const stored = localStorage.getItem('nuxt-color-mode')
-    if (stored === 'dark' || stored === 'light') {
-      isDark.value = stored === 'dark'
-    } else {
-      // Check system preference
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
+    // The inline head script sets the class before hydration, so reading the DOM
+    // during setup is safe and avoids a sun/moon icon flash after mount.
+    isDark.value = document.documentElement.classList.contains('dark')
+    onMounted(() => {
+      isDark.value = document.documentElement.classList.contains('dark')
+    })
   }
 
   return isDark

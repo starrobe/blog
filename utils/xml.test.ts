@@ -34,8 +34,8 @@ describe('escapeXml', () => {
 
   it('should handle undefined-like input', () => {
     expect(escapeXml()).toBe('')
-    expect(escapeXml(null as any)).toBe('null')
-    expect(escapeXml(undefined as any)).toBe('') // default param kicks in
+    expect(escapeXml(null as unknown as string)).toBe('null')
+    expect(escapeXml(undefined as unknown as string)).toBe('') // default param kicks in
   })
 
   it('should not modify plain text', () => {

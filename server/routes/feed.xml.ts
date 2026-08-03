@@ -31,6 +31,6 @@ export default defineEventHandler(async (event) => {
   </channel>
 </rss>`
 
-  setHeader(event, 'content-type', 'application/xml')
+  setHeader(event, 'content-type', 'application/rss+xml; charset=utf-8')
   return rss
 })

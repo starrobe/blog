@@ -8,15 +8,8 @@ vi.mock('./theme', () => {
     useIsDark: () => {
       if (!mockStateStorage.has('isDark')) {
         const isDark = { value: false }
-        // Initialize from localStorage on client
         if (import.meta.client) {
-          const stored = localStorage.getItem('nuxt-color-mode')
-          if (stored === 'dark' || stored === 'light') {
-            isDark.value = stored === 'dark'
-          } else {
-            // Check system preference
-            isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-          }
+          isDark.value = document.documentElement.classList.contains('dark')
         }
         mockStateStorage.set('isDark', isDark)
       }
@@ -29,22 +22,12 @@ vi.mock('./theme', () => {
       const isAppearanceTransition = document.startViewTransition
         && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-      // useIsDark must be called first to initialize/use the stored state
-      const isDark = vi.fn(() => {
-        if (!mockStateStorage.has('isDark')) {
-          const isDarkObj = { value: false }
-          if (import.meta.client) {
-            const stored = localStorage.getItem('nuxt-color-mode')
-            if (stored === 'dark' || stored === 'light') {
-              isDarkObj.value = stored === 'dark'
-            } else {
-              isDarkObj.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-            }
-          }
-          mockStateStorage.set('isDark', isDarkObj)
-        }
-        return mockStateStorage.get('isDark')!
-      })()
+      // Ensure state is initialized with current classList state
+      if (!mockStateStorage.has('isDark')) {
+        const isDarkObj = { value: document.documentElement.classList.contains('dark') }
+        mockStateStorage.set('isDark', isDarkObj)
+      }
+      const isDark = mockStateStorage.get('isDark')!
 
       if (!isAppearanceTransition) {
         const html = document.documentElement
@@ -94,6 +77,10 @@ vi.mock('./theme', () => {
   }
 })
 
+// vi.mock must be registered before the module import below (vitest hoists it),
+// and the factory references mockStateStorage declared above, so the import is
+// intentionally kept after the module-level setup rather than at the top.
+// eslint-disable-next-line import/first
 import { useIsDark, toggleDark } from './theme'
 
 // Mock import.meta.client
@@ -116,9 +103,16 @@ const matchMediaMock = vi.fn().mockReturnValue({
 vi.stubGlobal('matchMedia', matchMediaMock)
 
 // Mock document
+const classList: string[] = []
 const classListMock = {
-  remove: vi.fn(),
-  add: vi.fn(),
+  remove: vi.fn((...names: string[]) => names.forEach(n => {
+    const idx = classList.indexOf(n)
+    if (idx !== -1) classList.splice(idx, 1)
+  })),
+  add: vi.fn((...names: string[]) => names.forEach(n => {
+    if (!classList.includes(n)) classList.push(n)
+  })),
+  contains: vi.fn((name: string) => classList.includes(name)),
 }
 const documentMock = {
   documentElement: {
@@ -144,37 +138,27 @@ describe('useIsDark', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockStateStorage.clear()
-    localStorageMock.getItem.mockReset()
+    classList.length = 0
+    classListMock.remove.mockClear()
+    classListMock.add.mockClear()
+    classListMock.contains.mockClear()
   })
 
-  it('should return false by default when no stored value', () => {
-    localStorageMock.getItem.mockReturnValue(null)
-    matchMediaMock.mockReturnValue({ matches: false })
-
+  it('should return false by default when classList has no dark', () => {
     const isDark = useIsDark()
     expect(isDark.value).toBe(false)
   })
 
-  it('should return true when stored value is dark', () => {
-    localStorageMock.getItem.mockReturnValue('dark')
-
+  it('should return true when classList contains dark', () => {
+    classList.push('dark')
     const isDark = useIsDark()
     expect(isDark.value).toBe(true)
   })
 
-  it('should return false when stored value is light', () => {
-    localStorageMock.getItem.mockReturnValue('light')
-
+  it('should return false when classList contains light', () => {
+    classList.push('light')
     const isDark = useIsDark()
     expect(isDark.value).toBe(false)
-  })
-
-  it('should check system preference when no stored value', () => {
-    localStorageMock.getItem.mockReturnValue(null)
-    matchMediaMock.mockReturnValue({ matches: true })
-
-    const isDark = useIsDark()
-    expect(isDark.value).toBe(true)
   })
 })
 
@@ -182,16 +166,14 @@ describe('toggleDark', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockStateStorage.clear()
-    localStorageMock.getItem.mockReturnValue('light')
-    matchMediaMock.mockReturnValue({ matches: false })
+    classList.length = 0
+    classList.push('light')
     classListMock.remove.mockClear()
     classListMock.add.mockClear()
+    classListMock.contains.mockClear()
   })
 
   it('should do nothing in server environment', () => {
-    const savedDocument = globalThis.document
-    const savedWindow = globalThis.window
-
     Object.defineProperty(globalThis, 'document', {
       value: undefined,
       writable: true,
@@ -201,7 +183,6 @@ describe('toggleDark', () => {
       writable: true,
     })
 
-    // Should not throw
     toggleDark({ clientX: 100, clientY: 100 } as MouseEvent)
 
     Object.defineProperty(globalThis, 'document', {
@@ -226,7 +207,6 @@ describe('toggleDark', () => {
   })
 
   it('should toggle from light to dark', () => {
-    localStorageMock.getItem.mockReturnValue('light')
     // @ts-expect-error removing view transition support
     document.startViewTransition = undefined
 
@@ -236,7 +216,8 @@ describe('toggleDark', () => {
   })
 
   it('should toggle from dark to light', () => {
-    localStorageMock.getItem.mockReturnValue('dark')
+    classList.length = 0
+    classList.push('dark')
     // @ts-expect-error removing view transition support
     document.startViewTransition = undefined
 
@@ -246,7 +227,8 @@ describe('toggleDark', () => {
   })
 
   it('should use view transition when supported', async () => {
-    localStorageMock.getItem.mockReturnValue('light')
+    classList.length = 0
+    classList.push('light')
 
     let transitionCallback: (() => Promise<void>) | undefined
     const transitionMock = {
@@ -261,7 +243,6 @@ describe('toggleDark', () => {
 
     toggleDark({ clientX: 100, clientY: 100 } as MouseEvent)
 
-    // Execute the callback to simulate view transition behavior
     if (transitionCallback) {
       await transitionCallback()
     }

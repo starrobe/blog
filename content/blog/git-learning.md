@@ -1,6 +1,5 @@
 ---
 title: Git学习记录
-description: 笔记
 date: 2023-02-03
 tags: [Git]
 ---

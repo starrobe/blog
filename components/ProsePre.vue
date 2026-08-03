@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-  code?: string
-}>()
+// Class (e.g. language-*) is applied to <pre> manually via $attrs; don't also
+// inherit attributes onto the wrapper div.
+defineOptions({ inheritAttrs: false })
 
 const copied = ref(false)
 const preRef = ref<HTMLPreElement | null>(null)
@@ -23,7 +23,7 @@ async function copyCode() {
 
 <template>
   <div class="code-block-wrapper">
-    <pre ref="preRef" :class="$props.class"><slot /></pre>
+    <pre ref="preRef" :class="$attrs.class"><slot /></pre>
     <button
       :aria-label="copied ? 'Code copied to clipboard' : 'Copy code to clipboard'"
       :title="copied ? 'Copied!' : 'Copy code'"
