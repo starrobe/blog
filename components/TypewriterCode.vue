@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const codes = [
   'printf("Nice to meet you.\\n");',
-  'printf("斯是陋室，惟吾德馨。\\n");',
+  'printf("有朋自远方来，不亦乐乎。\\n");',
 ]
 const currentIndex = ref(0)
 const displayText = ref('')

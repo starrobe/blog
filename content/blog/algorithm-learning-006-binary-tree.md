@@ -1,6 +1,5 @@
 ---
 title: 二叉树
-description: 笔记
 date: 2026-4-21
 tags: [算法]
 ---

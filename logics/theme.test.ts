@@ -77,6 +77,10 @@ vi.mock('./theme', () => {
   }
 })
 
+// vi.mock must be registered before the module import below (vitest hoists it),
+// and the factory references mockStateStorage declared above, so the import is
+// intentionally kept after the module-level setup rather than at the top.
+// eslint-disable-next-line import/first
 import { useIsDark, toggleDark } from './theme'
 
 // Mock import.meta.client
@@ -170,9 +174,6 @@ describe('toggleDark', () => {
   })
 
   it('should do nothing in server environment', () => {
-    const savedDocument = globalThis.document
-    const savedWindow = globalThis.window
-
     Object.defineProperty(globalThis, 'document', {
       value: undefined,
       writable: true,

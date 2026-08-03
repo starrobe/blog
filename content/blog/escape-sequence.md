@@ -1,6 +1,5 @@
 ---
 title: C++的`\?`
-description: 笔记
 date: 2025-05-11
 tags: [C++]
 ---

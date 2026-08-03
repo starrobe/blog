@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-  code?: string
-}>()
+// Class (e.g. language-*) is applied to <pre> manually via $attrs; don't also
+// inherit attributes onto the wrapper div.
+defineOptions({ inheritAttrs: false })
 
 const copied = ref(false)
 const preRef = ref<HTMLPreElement | null>(null)

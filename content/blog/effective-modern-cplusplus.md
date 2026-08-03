@@ -1,6 +1,5 @@
 ---
 title: Effective Modern C++
-description: 笔记
 date: 2023-06-18
 tags: [C++]
 ---

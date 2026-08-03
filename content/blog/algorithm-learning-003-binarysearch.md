@@ -1,6 +1,5 @@
 ---
 title: 二分搜索
-description: 笔记
 date: 2025-11-27
 tags: [算法]
 ---

@@ -1,7 +1,7 @@
 ---
 title: Home
 name: 阿东
-description: 曾许天下第一流
+description: '曾许天下第一流。'
 avatar: https://starrobe-blog.oss-cn-beijing.aliyuncs.com/avatar/jashinchan.jpg
 social:
   github: https://github.com/starrobe

@@ -16,18 +16,30 @@ useSeoMeta({
   description: 'Articles about programming and technology',
 })
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('en-US', {
+function toDate(date?: string) {
+  if (!date) return null
+  const d = new Date(date)
+  return Number.isNaN(d.getTime()) ? null : d
+}
+
+function formatDate(date?: string) {
+  const d = toDate(date)
+  if (!d) return ''
+  return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
   })
 }
 
-const getYear = (date: string) => new Date(date).getFullYear()
+function getYear(date?: string) {
+  const d = toDate(date)
+  return d ? d.getFullYear() : null
+}
 
 function isSameYear(a?: string, b?: string) {
-  if (!a || !b) return false
-  return getYear(a) === getYear(b)
+  const ya = getYear(a)
+  const yb = getYear(b)
+  return ya !== null && ya === yb
 }
 </script>
 

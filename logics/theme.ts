@@ -4,6 +4,9 @@ export function useIsDark() {
   const isDark = useState('isDark', () => false)
 
   if (import.meta.client) {
+    // The inline head script sets the class before hydration, so reading the DOM
+    // during setup is safe and avoids a sun/moon icon flash after mount.
+    isDark.value = document.documentElement.classList.contains('dark')
     onMounted(() => {
       isDark.value = document.documentElement.classList.contains('dark')
     })

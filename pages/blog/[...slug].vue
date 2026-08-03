@@ -17,6 +17,8 @@ if (!post.value) {
   throw createError({ statusCode: 404, message: 'Post not found' })
 }
 
+const config = useRuntimeConfig()
+
 useSeoMeta({
   title: () => post.value?.title ? `${post.value.title} | Blog` : 'Blog',
   description: () => post.value?.description,
@@ -37,7 +39,7 @@ useHead({
         '@type': 'Person',
         name: homeData.value?.name ?? '阿东',
       },
-      url: `https://starrobe.cn/blog/${slug}`,
+      url: `${config.public.siteUrl}/blog/${slug}`,
     }),
   }],
 })

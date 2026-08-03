@@ -1,6 +1,5 @@
 ---
 title: 无锁的线程安全栈
-description: 笔记
 date: 2023-08-13
 tags: [C++, 并发编程]
 ---

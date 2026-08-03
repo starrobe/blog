@@ -128,7 +128,7 @@ footer {
 
 /* Prose - Markdown content styling */
 .prose {
-  max-width: 65ch;
+  max-width: 81ch;
   font-size: 1rem;
   line-height: 1.75;
   color: var(--fg);

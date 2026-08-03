@@ -1,6 +1,5 @@
 ---
 title: C++并发
-description: 笔记
 date: 2023-07-24
 tags: [C++, 并发编程]
 ---

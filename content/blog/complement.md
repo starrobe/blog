@@ -1,6 +1,5 @@
 ---
 title: 补数与补码
-description: 笔记
 date: 2023-01-15
 tags: [计算机基础]
 ---

@@ -98,13 +98,4 @@ export default defineNuxtConfig({
     },
   },
 
-  experimental: {
-    payloadExtraction: true,
-  },
-
-  vite: {
-    optimizeDeps: {
-      include: [],
-    },
-  },
 });

@@ -1,6 +1,5 @@
 ---
 title: Effective C++
-description: 笔记
 date: 2023-05-18
 tags: [C++]
 ---
