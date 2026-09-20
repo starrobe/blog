@@ -209,6 +209,15 @@ const vReveal = {
   text-underline-offset: 3px;
 }
 
+/* 标题内的锚点链接不下划线 */
+.body :deep(h2 a),
+.body :deep(h3 a),
+.body :deep(h4 a),
+.body :deep(h5 a),
+.body :deep(h6 a) {
+  text-decoration: none;
+}
+
 /* 图片 */
 .body :deep(img) {
   max-width: 100%;
