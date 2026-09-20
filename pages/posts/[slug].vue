@@ -85,11 +85,8 @@ const vReveal = {
 .paper {
   width: 100%;
   max-width: 680px;
-  background: var(--paper);
-  color: var(--ink);
+  color: var(--paper);
   padding: 48px 48px;
-  border-radius: 2px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
 }
 .title {
   font-family: var(--font-serif);
@@ -117,14 +114,14 @@ const vReveal = {
   transition: color 0.15s ease;
 }
 .tag:hover {
-  color: var(--ink);
+  color: #ffffff;
   text-decoration: underline;
 }
 .body {
   margin-top: 24px;
   line-height: 1.8;
   font-size: 16px;
-  color: var(--ink);
+  color: var(--paper);
 }
 
 /* 段落 */
@@ -164,14 +161,14 @@ const vReveal = {
 .body :deep(blockquote) {
   margin: 1.5em 0;
   padding: 0.25em 0 0.25em 1.25em;
-  border-left: 2px solid var(--line);
-  color: var(--grey);
+  border-left: 2px solid #444444;
+  color: #aaaaaa;
 }
 
 /* 代码块 */
 .body :deep(pre) {
   margin: 1.5em 0;
-  background: #f5f5f5;
+  background: #1a1a1a;
   padding: 14px;
   border-radius: 2px;
   overflow-x: auto;
@@ -190,7 +187,7 @@ const vReveal = {
 
 /* 行内代码 */
 .body :deep(code) {
-  background: #f0f0f0;
+  background: #1a1a1a;
   padding: 0.1em 0.35em;
   border-radius: 2px;
   font-size: 0.9em;
@@ -199,7 +196,7 @@ const vReveal = {
 /* 分割线 */
 .body :deep(hr) {
   border: none;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid #333333;
   margin: 2em 0;
 }
 
