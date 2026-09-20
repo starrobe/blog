@@ -5,8 +5,9 @@ import type { PaperCardPost } from './PaperCard.vue'
 const props = defineProps<{ posts: Array<PaperCardPost & { index: string }> }>()
 
 const orientation = ref<'vertical' | 'horizontal'>('vertical')
-function toggleOrientation() {
-  orientation.value = orientation.value === 'vertical' ? 'horizontal' : 'vertical'
+function setOrientation(v: 'vertical' | 'horizontal') {
+  if (orientation.value === v) return
+  orientation.value = v
   updateSpan()
 }
 
@@ -110,7 +111,10 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </div>
-    <button class="toggle" @click="toggleOrientation">{{ orientation === 'vertical' ? '⟲ 横向' : '⟳ 纵向' }}</button>
+    <div class="toggle-group">
+      <a href="#" class="toggle-item" :class="{ active: orientation === 'vertical' }" @click.prevent="setOrientation('vertical')">Vertical</a>
+      <a href="#" class="toggle-item" :class="{ active: orientation === 'horizontal' }" @click.prevent="setOrientation('horizontal')">Horizontal</a>
+    </div>
   </div>
 </template>
 
@@ -127,19 +131,27 @@ onBeforeUnmount(() => {
   background: var(--bg);
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.toggle {
+.toggle-group {
   position: fixed;
-  bottom: 24px;
-  right: 28px;
+  left: 28px;
+  bottom: 28px;
   z-index: 45;
-  color: #ffffff;
-  opacity: 0.6;
-  border: 1px solid #444;
-  padding: 8px 14px;
-  border-radius: 2px;
-  transition: opacity 0.2s;
+  display: flex;
+  gap: 16px;
 }
-.toggle:hover { opacity: 1; }
+.toggle-item {
+  color: var(--grey);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  transition: color 0.2s ease;
+}
+.toggle-item:hover {
+  color: #cccccc;
+}
+.toggle-item.active {
+  color: #ffffff;
+}
 .slot {
   position: absolute;
   top: 50%;
