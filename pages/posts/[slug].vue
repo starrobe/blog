@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { bodyToPlainText, readingMinutes } from '~/utils/plaintext'
-import { sortAndIndex } from '~/utils/posts'
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -19,23 +18,6 @@ const minutes = computed(() => readingMinutes(bodyToPlainText(post.value?.body))
 useSeoMeta({
   title: `${post.value.title} · BLOG`,
   description: post.value.summary ?? ''
-})
-
-// 上一篇/下一篇:基于同一排序
-const { data: all } = await useAsyncData('post-all', () =>
-  queryCollection('posts').where('hidden', '=', false).all()
-)
-const siblings = computed(() => {
-  const list = sortAndIndex((all.value ?? []).map((p: any) => ({
-    title: p.title,
-    date: p.date,
-    slug: String(p.path).replace(/^\/posts\//, '')
-  })))
-  const i = list.findIndex((p: any) => p.slug === slug)
-  return {
-    prev: i > 0 ? list[i - 1] : null,
-    next: i >= 0 && i < list.length - 1 ? list[i + 1] : null
-  }
 })
 
 // 滚动 reveal 指令
@@ -86,9 +68,7 @@ const vReveal = {
         <ContentRenderer :value="post" />
       </div>
       <footer class="foot">
-        <NuxtLink v-if="siblings.prev" :to="`/posts/${siblings.prev.slug}`">← {{ siblings.prev.title }}</NuxtLink>
-        <NuxtLink v-else to="/">返回首页</NuxtLink>
-        <NuxtLink v-if="siblings.next" :to="`/posts/${siblings.next.slug}`">{{ siblings.next.title }} →</NuxtLink>
+        <NuxtLink to="/">← 返回首页</NuxtLink>
       </footer>
     </div>
   </article>
