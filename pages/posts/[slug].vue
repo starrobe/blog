@@ -34,7 +34,7 @@ const vReveal = {
           }
         })
       },
-      { threshold: 0.1 }
+      { threshold: 0 }
     )
     revealObservers.set(el, io)
     io.observe(el)
