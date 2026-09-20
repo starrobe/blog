@@ -124,13 +124,113 @@ const vReveal = {
   margin-top: 24px;
   line-height: 1.8;
   font-size: 16px;
+  color: var(--ink);
 }
-.body :deep(h2) { margin-top: 32px; }
-.body :deep(pre) { background: #f5f5f5; padding: 14px; overflow-x: auto; }
+
+/* 段落 */
+.body :deep(p) { margin: 0 0 1.25em; }
+
+/* 标题:上方大留白、下方紧凑 */
+.body :deep(h2) {
+  font-family: var(--font-serif);
+  font-size: 1.5em;
+  line-height: 1.4;
+  margin: 2em 0 0.75em;
+}
+.body :deep(h3) {
+  font-family: var(--font-serif);
+  font-size: 1.25em;
+  line-height: 1.4;
+  margin: 1.75em 0 0.6em;
+}
+.body :deep(h4),
+.body :deep(h5),
+.body :deep(h6) {
+  font-family: var(--font-serif);
+  line-height: 1.4;
+  margin: 1.5em 0 0.5em;
+}
+
+/* 列表 */
+.body :deep(ul),
+.body :deep(ol) {
+  margin: 0 0 1.25em;
+  padding-left: 1.5em;
+}
+.body :deep(li) { margin: 0.3em 0; }
+.body :deep(li > p) { margin: 0; }
+
+/* 引用块 */
+.body :deep(blockquote) {
+  margin: 1.5em 0;
+  padding: 0.25em 0 0.25em 1.25em;
+  border-left: 2px solid var(--line);
+  color: var(--grey);
+}
+
+/* 代码块 */
+.body :deep(pre) {
+  margin: 1.5em 0;
+  background: #f5f5f5;
+  padding: 14px;
+  border-radius: 2px;
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
 .body :deep(pre),
 .body :deep(code) {
   font-family: var(--font-mono);
 }
+.body :deep(pre code) {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* 行内代码 */
+.body :deep(code) {
+  background: #f0f0f0;
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+  font-size: 0.9em;
+}
+
+/* 分割线 */
+.body :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2em 0;
+}
+
+/* 链接 */
+.body :deep(a) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 图片 */
+.body :deep(img) {
+  max-width: 100%;
+  border-radius: 2px;
+}
+
+/* 表格 */
+.body :deep(table) {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+}
+.body :deep(th),
+.body :deep(td) {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  text-align: left;
+}
+.body :deep(th) { font-weight: 600; }
+
+/* 强调 */
+.body :deep(strong) { font-weight: 600; }
 .foot {
   display: flex;
   justify-content: space-between;
