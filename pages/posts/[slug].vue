@@ -181,6 +181,8 @@ onBeforeUnmount(() => {
   border-left: 2px solid #444444;
   color: #aaaaaa;
 }
+.body :deep(blockquote p) { margin: 0; }
+.body :deep(blockquote p + p) { margin-top: 0.5em; }
 
 /* 代码块 */
 .body :deep(pre) {
