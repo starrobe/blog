@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computeCardStates } from '~/utils/coverflow'
+import { computeCoverflowClones, type CoverflowItem } from '~/utils/coverflow'
 import type { PaperCardPost } from './PaperCard.vue'
 
 const props = defineProps<{ posts: Array<PaperCardPost & { index: string }> }>()
@@ -7,8 +7,10 @@ const props = defineProps<{ posts: Array<PaperCardPost & { index: string }> }>()
 const orientation = ref<'vertical' | 'horizontal'>('vertical')
 function toggleOrientation() {
   orientation.value = orientation.value === 'vertical' ? 'horizontal' : 'vertical'
+  updateSpan()
 }
 
+const CARD_W = 240
 const CARD_H = 360
 const SPACING = CARD_H + 40
 const LERP = 0.12
@@ -52,9 +54,18 @@ function onTouchMove(e: TouchEvent) {
   if (!rafId) rafId = requestAnimationFrame(tick)
 }
 
-const states = computed(() => computeCardStates(props.posts.length, current.value))
+// 可见范围:卡片完整滚出屏幕所需的最大 centered(按当前排布方向的视口尺寸)
+const span = ref(3)
+function updateSpan() {
+  if (typeof window === 'undefined') return
+  const size = orientation.value === 'vertical' ? window.innerHeight : window.innerWidth
+  const cardHalf = orientation.value === 'vertical' ? CARD_H / 2 : CARD_W / 2
+  span.value = Math.ceil((size / 2 + cardHalf) / SPACING) + 1
+}
 
-const cardStyle = (s: { centered: number; scale: number; opacity: number }) => {
+const clones = computed(() => computeCoverflowClones(props.posts.length, current.value, span.value))
+
+const cardStyle = (s: CoverflowItem) => {
   // 水平模式:容器整体 rotate(-90deg) 排布,卡片反向 rotate(90deg) 抵消,保持内容正向。
   const rotation = orientation.value === 'horizontal' ? 90 : 0
   return {
@@ -64,7 +75,15 @@ const cardStyle = (s: { centered: number; scale: number; opacity: number }) => {
   }
 }
 
-onBeforeUnmount(() => cancelAnimationFrame(rafId))
+onMounted(() => {
+  updateSpan()
+  window.addEventListener('resize', updateSpan)
+})
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(rafId)
+  window.removeEventListener('resize', updateSpan)
+})
 </script>
 
 <template>
@@ -77,12 +96,12 @@ onBeforeUnmount(() => cancelAnimationFrame(rafId))
       @touchmove.passive="onTouchMove"
     >
       <div
-        v-for="(post, i) in posts"
-        :key="post.slug"
+        v-for="c in clones"
+        :key="`${posts[c.index].slug}-${c.cloneId}`"
         class="slot"
-        :style="cardStyle(states[i])"
+        :style="cardStyle(c)"
       >
-        <PaperCard :post="post" :index="post.index" :focused="Math.abs(states[i].centered) < 0.5" />
+        <PaperCard :post="posts[c.index]" :index="posts[c.index].index" :focused="Math.abs(c.centered) < 0.5" />
       </div>
     </div>
     <button class="toggle" @click="toggleOrientation">{{ orientation === 'vertical' ? '⟲ 横向' : '⟳ 纵向' }}</button>

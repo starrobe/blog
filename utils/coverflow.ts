@@ -1,4 +1,6 @@
-export interface CardState {
+export interface CoverflowItem {
+  index: number
+  cloneId: number
   centered: number
   scale: number
   opacity: number
@@ -11,17 +13,32 @@ export function mod(n: number, m: number): number {
 const SCALE_FALLOFF = 0.16
 const OPACITY_FALLOFF = 0.22
 
-export function computeCardStates(count: number, scroll: number): CardState[] {
-  const states: CardState[] = []
+/**
+ * 生成 coverflow 的「连续卡片流」:每张卡片在可见范围 [-span, span] 内克隆多份
+ * (相邻克隆间隔 count 格),使卡片流在屏幕上连续、无跳变,卡片可完整滚出屏幕。
+ * cloneId 标识克隆编号,滚动时稳定,供组件用作稳定的 DOM key。
+ */
+export function computeCoverflowClones(
+  count: number,
+  scroll: number,
+  span: number
+): CoverflowItem[] {
+  const items: CoverflowItem[] = []
   for (let i = 0; i < count; i++) {
-    const rel = mod(i - scroll, count)
-    const centered = rel > count / 2 ? rel - count : rel
-    const d = Math.abs(centered)
-    states.push({
-      centered,
-      scale: Math.max(0.35, 1 - d * SCALE_FALLOFF),
-      opacity: Math.max(0.15, 1 - d * OPACITY_FALLOFF)
-    })
+    const base = mod(i - scroll, count)
+    const kMin = Math.ceil((-span - base) / count)
+    const kMax = Math.floor((span - base) / count)
+    for (let k = kMin; k <= kMax; k++) {
+      const centered = base + k * count
+      const d = Math.abs(centered)
+      items.push({
+        index: i,
+        cloneId: k,
+        centered,
+        scale: Math.max(0.35, 1 - d * SCALE_FALLOFF),
+        opacity: Math.max(0.15, 1 - d * OPACITY_FALLOFF)
+      })
+    }
   }
-  return states
+  return items.sort((a, b) => a.centered - b.centered)
 }
