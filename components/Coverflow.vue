@@ -148,6 +148,8 @@ onBeforeUnmount(() => {
 }
 .toggle-item:hover {
   color: #cccccc;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .toggle-item.active {
   color: #ffffff;
