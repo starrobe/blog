@@ -44,6 +44,22 @@ const vReveal = {
     revealObservers.delete(el)
   }
 }
+
+// 回到顶部按钮
+const showBackToTop = ref(false)
+function onScroll() {
+  showBackToTop.value = window.scrollY > 300
+}
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <template>
@@ -72,6 +88,7 @@ const vReveal = {
       </footer>
     </div>
   </article>
+  <button v-show="showBackToTop" class="back-to-top" @click="scrollToTop" aria-label="回到顶部">↑</button>
 </template>
 
 <style scoped>
@@ -256,5 +273,29 @@ const vReveal = {
 .reveal-visible {
   opacity: 1;
   transform: translateY(0);
+}
+.back-to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #444444;
+  background: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  z-index: 50;
+}
+.back-to-top:hover {
+  background: #ffffff;
+  color: #0a0a0a;
+  border-color: #ffffff;
 }
 </style>
