@@ -12,7 +12,7 @@ onMounted(() => {
   <div class="site">
     <GrainOverlay />
     <NuxtLink to="/" class="logo" aria-label="回到首页">
-      <svg class="logo-svg" viewBox="0 0 640 400" fill="none">
+      <svg class="logo-svg" viewBox="268 146 104 107" fill="none">
         <g transform="translate(0,400) scale(0.1,-0.1)">
           <path
             class="logo-path"
