@@ -47,3 +47,28 @@ button {
   cursor: pointer;
   color: inherit;
 }
+
+/* 美化滚动条(WebKit:Chrome / Edge / Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #555555;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888888;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 美化滚动条(Firefox) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #555555 transparent;
+}
