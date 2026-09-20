@@ -275,6 +275,10 @@ onBeforeUnmount(() => {
 .back {
   font-family: var(--font-mono);
   color: #8b949e;
+  transition: color 0.2s ease;
+}
+.back:hover {
+  color: #e6edf3;
 }
 .reveal {
   opacity: 0;
