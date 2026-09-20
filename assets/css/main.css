@@ -1,20 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
-
-@font-face {
-  font-family: 'Comic Mono';
-  src: url('https://cdn.jsdelivr.net/npm/comic-mono@0.0.1/ComicMono.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Comic Mono';
-  src: url('https://cdn.jsdelivr.net/npm/comic-mono@0.0.1/ComicMono-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap');
 
 :root {
   --bg: #0a0a0a;
@@ -22,9 +6,12 @@
   --ink: #111111;
   --grey: #888888;
   --line: #333333;
-  --font-serif: 'Playfair Display', 'LXGW WenKai', Georgia, 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
-  --font-sans: 'Inter', 'LXGW WenKai', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-  --font-mono: 'Comic Mono', 'Comic Sans MS', 'Courier New', monospace;
+  /* 标题:等宽(终端极客风),中文走黑体 */
+  --font-serif: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
+  /* 正文:无衬线,中文走黑体 */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  /* 代码:等宽 */
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 * { box-sizing: border-box; }
