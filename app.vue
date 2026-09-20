@@ -6,6 +6,7 @@ const showSearch = ref(false)
   <div class="site">
     <GrainOverlay />
     <SiteNav @open-search="showSearch = true" />
+    <SearchModal v-model="showSearch" />
     <NuxtPage />
   </div>
 </template>
