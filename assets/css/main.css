@@ -35,7 +35,7 @@ button {
   color: inherit;
 }
 
-/* 左上角 Logo:SVG 描边动画 */
+/* 左上角 Logo:SVG 描边动画(循环) */
 .logo {
   position: fixed;
   top: 28px;
@@ -43,18 +43,43 @@ button {
   z-index: 45;
   color: #ffffff;
 }
-.logo-path {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-  animation: logo-draw 1.2s ease forwards;
+.logo-svg {
+  width: 56px;
+  height: 35px;
+  display: block;
 }
-@keyframes logo-draw {
-  to { stroke-dashoffset: 0; }
+.logo-path {
+  stroke-dasharray: 0 var(--len, 3000px);
+  stroke-dashoffset: 1px;
+  opacity: 0;
+  animation: logo-grow 6s ease forwards infinite;
+}
+@keyframes logo-grow {
+  0% {
+    stroke-dashoffset: 1px;
+    stroke-dasharray: 0 var(--len, 3000px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  40% {
+    stroke-dasharray: var(--len, 3000px) 0;
+  }
+  85% {
+    stroke-dasharray: var(--len, 3000px) 0;
+  }
+  95%,
+  to {
+    stroke-dasharray: 0 var(--len, 3000px);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .logo-path {
     animation: none;
+    stroke-dasharray: none;
     stroke-dashoffset: 0;
+    opacity: 1;
   }
 }
 
