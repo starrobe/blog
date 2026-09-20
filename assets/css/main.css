@@ -51,8 +51,6 @@ button {
 .logo-path {
   stroke-dasharray: 0 var(--len, 3000px);
   stroke-dashoffset: 1px;
-  fill: #ffffff;
-  fill-opacity: 0;
   opacity: 0;
   animation: logo-grow 6s ease forwards infinite;
 }
@@ -60,7 +58,6 @@ button {
   0% {
     stroke-dashoffset: 1px;
     stroke-dasharray: 0 var(--len, 3000px);
-    fill-opacity: 0;
     opacity: 0;
   }
   10% {
@@ -68,19 +65,13 @@ button {
   }
   40% {
     stroke-dasharray: var(--len, 3000px) 0;
-    fill-opacity: 0;
-  }
-  60% {
-    fill-opacity: 1;
   }
   85% {
     stroke-dasharray: var(--len, 3000px) 0;
-    fill-opacity: 1;
   }
   95%,
   to {
     stroke-dasharray: 0 var(--len, 3000px);
-    fill-opacity: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -88,7 +79,6 @@ button {
     animation: none;
     stroke-dasharray: none;
     stroke-dashoffset: 0;
-    fill-opacity: 1;
     opacity: 1;
   }
 }
