@@ -65,15 +65,19 @@ function updateSpan() {
 
 const clones = computed(() => computeCoverflowClones(props.posts.length, current.value, span.value))
 
-const cardStyle = (s: CoverflowItem) => {
-  // 水平模式:容器整体 rotate(-90deg) 排布,卡片反向 rotate(90deg) 抵消,保持内容正向。
-  const rotation = orientation.value === 'horizontal' ? 90 : 0
-  return {
-    transform: `translate(-50%, -50%) translateY(${s.centered * SPACING}px) rotate(${rotation}deg) scale(${s.scale})`,
-    opacity: s.opacity,
-    zIndex: Math.round(100 - Math.abs(s.centered) * 10)
-  }
-}
+// 卡片定位:translateY 排布 + 缩放,滚动时由 JS lerp 驱动,不加 CSS 过渡(避免与滚动冲突)
+const positionStyle = (s: CoverflowItem) => ({
+  transform: `translate(-50%, -50%) translateY(${s.centered * SPACING}px) scale(${s.scale})`,
+  opacity: s.opacity,
+  zIndex: Math.round(100 - Math.abs(s.centered) * 10)
+})
+
+// 容器旋转与卡片反向旋转:两者都用 :style 驱动(同一批响应式更新),保证 transition 同步,
+// 使卡片在旋转动画的每一帧都保持垂直。
+const coverflowTransform = computed(() => `rotate(${orientation.value === 'horizontal' ? -90 : 0}deg)`)
+const rotationStyle = computed(() => ({
+  transform: `rotate(${orientation.value === 'horizontal' ? 90 : 0}deg)`
+}))
 
 onMounted(() => {
   updateSpan()
@@ -90,7 +94,7 @@ onBeforeUnmount(() => {
   <div class="coverflow-wrap">
     <div
       class="coverflow"
-      :class="{ horizontal: orientation === 'horizontal' }"
+      :style="{ transform: coverflowTransform }"
       @wheel.prevent="onWheel"
       @touchstart.passive="onTouchStart"
       @touchmove.passive="onTouchMove"
@@ -99,9 +103,11 @@ onBeforeUnmount(() => {
         v-for="c in clones"
         :key="`${posts[c.index].slug}-${c.cloneId}`"
         class="slot"
-        :style="cardStyle(c)"
+        :style="positionStyle(c)"
       >
-        <PaperCard :post="posts[c.index]" :index="posts[c.index].index" :focused="Math.abs(c.centered) < 0.5" />
+        <div class="slot-rotator" :style="rotationStyle">
+          <PaperCard :post="posts[c.index]" :index="posts[c.index].index" :focused="Math.abs(c.centered) < 0.5" />
+        </div>
       </div>
     </div>
     <button class="toggle" @click="toggleOrientation">{{ orientation === 'vertical' ? '⟲ 横向' : '⟳ 纵向' }}</button>
@@ -120,10 +126,6 @@ onBeforeUnmount(() => {
   inset: 0;
   background: var(--bg);
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.coverflow.horizontal {
-  /* 垂直 → 水平:逆时针 90°(不缩放,保持与垂直模式相同的卡片尺寸与间距) */
-  transform: rotate(-90deg);
 }
 .toggle {
   position: fixed;
@@ -145,5 +147,11 @@ onBeforeUnmount(() => {
   width: 240px;
   height: 360px;
   will-change: transform, opacity;
+}
+.slot-rotator {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 </style>
