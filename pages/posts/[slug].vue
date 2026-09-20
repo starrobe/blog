@@ -219,18 +219,28 @@ onBeforeUnmount(() => {
   margin: 2em 0;
 }
 
-/* 链接 */
+/* 链接:默认无下划线,hover 显示 */
 .body :deep(a) {
+  text-decoration: none;
+}
+.body :deep(a:hover) {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* 标题内的锚点链接不下划线 */
+/* 标题内的锚点链接不下划线(含 hover) */
 .body :deep(h2 a),
 .body :deep(h3 a),
 .body :deep(h4 a),
 .body :deep(h5 a),
 .body :deep(h6 a) {
+  text-decoration: none;
+}
+.body :deep(h2 a:hover),
+.body :deep(h3 a:hover),
+.body :deep(h4 a:hover),
+.body :deep(h5 a:hover),
+.body :deep(h6 a:hover) {
   text-decoration: none;
 }
 
