@@ -103,8 +103,8 @@ onBeforeUnmount(() => cancelAnimationFrame(rafId))
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .coverflow.horizontal {
-  /* 垂直 → 水平:逆时针 90° */
-  transform: rotate(-90deg) scale(1.2);
+  /* 垂直 → 水平:逆时针 90°(不缩放,保持与垂直模式相同的卡片尺寸与间距) */
+  transform: rotate(-90deg);
 }
 .toggle {
   position: fixed;
