@@ -270,8 +270,6 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
   font-size: 13px;
 }
 .back {
