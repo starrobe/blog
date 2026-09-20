@@ -264,6 +264,7 @@ onBeforeUnmount(() => {
 }
 .back {
   font-family: var(--font-mono);
+  color: #8b949e;
 }
 .reveal {
   opacity: 0;
