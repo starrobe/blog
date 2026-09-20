@@ -279,6 +279,8 @@ onBeforeUnmount(() => {
 }
 .back:hover {
   color: #e6edf3;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .reveal {
   opacity: 0;
