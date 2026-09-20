@@ -30,6 +30,17 @@ describe('bodyToPlainText', () => {
     expect(text).toContain('渲染。')
     expect(text).not.toContain('shiki') // style 节点被剔除
   })
+  it('折叠多余空白,避免加倍空格破坏多词短语匹配', () => {
+    const body = {
+      type: 'minimark',
+      value: [
+        ['p', {}, 'Hello ', ['strong', {}, 'World'], '  again']
+      ]
+    }
+    const text = bodyToPlainText(body)
+    expect(text).not.toContain('  ')
+    expect(text).toBe('Hello World again')
+  })
 })
 
 describe('readingMinutes', () => {
@@ -38,5 +49,9 @@ describe('readingMinutes', () => {
   })
   it('至少 1 分钟', () => {
     expect(readingMinutes('short')).toBe(1)
+  })
+  it('向上取整:401 字为 2 分钟', () => {
+    expect(readingMinutes('a'.repeat(400))).toBe(1)
+    expect(readingMinutes('a'.repeat(401))).toBe(2)
   })
 })

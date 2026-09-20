@@ -14,7 +14,12 @@ if (!post.value) {
 }
 
 const minutes = computed(() => readingMinutes(bodyToPlainText(post.value?.body)))
-const plain = computed(() => bodyToPlainText(post.value?.body))
+
+// SEO:每篇文章独立的标题与描述
+useSeoMeta({
+  title: `${post.value.title} · BLOG`,
+  description: post.value.summary ?? ''
+})
 
 // 上一篇/下一篇:基于同一排序
 const { data: all } = await useAsyncData('post-all', () =>
@@ -34,6 +39,7 @@ const siblings = computed(() => {
 })
 
 // 滚动 reveal 指令
+const revealObservers = new WeakMap<HTMLElement, IntersectionObserver>()
 const vReveal = {
   mounted(el: HTMLElement) {
     el.classList.add('reveal')
@@ -48,7 +54,12 @@ const vReveal = {
       },
       { threshold: 0.1 }
     )
+    revealObservers.set(el, io)
     io.observe(el)
+  },
+  unmounted(el: HTMLElement) {
+    revealObservers.get(el)?.disconnect()
+    revealObservers.delete(el)
   }
 }
 </script>

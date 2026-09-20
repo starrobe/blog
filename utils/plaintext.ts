@@ -27,10 +27,10 @@ export function bodyToPlainText(body: unknown): string {
     if (Array.isArray(node.value)) node.value.forEach(walk)
   }
   walk(body)
-  return parts.join(' ')
+  return parts.join(' ').replace(/\s+/g, ' ').trim()
 }
 
 export function readingMinutes(text: string, wpm = 400): number {
   const chars = text.replace(/\s/g, '').length
-  return Math.max(1, Math.round(chars / wpm))
+  return Math.max(1, Math.ceil(chars / wpm))
 }

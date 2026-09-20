@@ -31,14 +31,24 @@ function onWheel(e: WheelEvent) {
   if (!rafId) rafId = requestAnimationFrame(tick)
 }
 
+let touchStartX = 0
 let touchStartY = 0
 function onTouchStart(e: TouchEvent) {
+  touchStartX = e.touches[0].clientX
   touchStartY = e.touches[0].clientY
 }
 function onTouchMove(e: TouchEvent) {
-  const dy = e.touches[0].clientY - touchStartY
-  touchStartY = e.touches[0].clientY
-  target.value += dy / SPACING
+  const t = e.touches[0]
+  if (orientation.value === 'horizontal') {
+    // 水平模式:容器逆时针旋转 90°,左右滑动对应前进/后退。
+    const dx = t.clientX - touchStartX
+    touchStartX = t.clientX
+    target.value += dx / SPACING
+  } else {
+    const dy = t.clientY - touchStartY
+    touchStartY = t.clientY
+    target.value += dy / SPACING
+  }
   if (!rafId) rafId = requestAnimationFrame(tick)
 }
 

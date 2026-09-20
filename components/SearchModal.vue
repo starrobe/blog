@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import { bodyToPlainText } from '~/utils/plaintext'
+interface SearchItem {
+  title: string
+  summary: string
+  tags: string[]
+  slug: string
+  text: string
+}
 
 const open = defineModel<boolean>({ default: false })
 const q = ref('')
 
-const { data } = await useAsyncData('search-index', () =>
-  queryCollection('posts').where('hidden', '=', false).all()
-)
+const { data } = await useFetch<SearchItem[]>('/search-index.json')
 
-const index = computed(() =>
-  (data.value ?? []).map((p: any) => ({
-    title: p.title,
-    summary: p.summary,
-    tags: p.tags ?? [],
-    slug: String(p.path).replace(/^\/posts\//, ''),
-    text: bodyToPlainText(p.body)
-  }))
-)
+const index = computed(() => data.value ?? [])
 
 const results = computed(() => {
-  const k = q.value.trim().toLowerCase()
+  const k = q.value.trim().toLowerCase().replace(/\s+/g, ' ')
   if (!k) return []
   return index.value.filter((p) =>
     [p.title, p.summary, p.tags.join(' '), p.text].join(' ').toLowerCase().includes(k)

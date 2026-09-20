@@ -2,6 +2,11 @@
 import { sortAndIndex } from '~/utils/posts'
 import type { PaperCardPost } from '~/components/PaperCard.vue'
 
+useSeoMeta({
+  title: 'BLOG',
+  description: '黑白极简静态博客 — 以纸质文件为隐喻的封面流阅读体验。'
+})
+
 const { data } = await useAsyncData('home-posts', () =>
   queryCollection('posts').where('hidden', '=', false).all()
 )
