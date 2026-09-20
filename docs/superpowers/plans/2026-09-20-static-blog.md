@@ -727,7 +727,7 @@ git commit -m "feat: coverflow position/scale/opacity math with tests"
 import { computeCardStates } from '~/utils/coverflow'
 import type { PaperCardPost } from './PaperCard.vue'
 
-const props = defineProps<{ posts: PaperCardPost[] }>()
+const props = defineProps<{ posts: Array<PaperCardPost & { index: string }> }>()
 
 const CARD_H = 360
 const SPACING = CARD_H + 40
