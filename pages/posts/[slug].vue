@@ -55,7 +55,7 @@ const vReveal = {
 
 <template>
   <article class="article">
-    <div class="paper" v-reveal>
+    <div class="paper" v-reveal :style="{ viewTransitionName: `card-${slug}` }">
       <header class="paper-head">
         <h1 class="title">{{ post.title }}</h1>
         <div class="meta">

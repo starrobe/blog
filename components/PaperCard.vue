@@ -14,10 +14,22 @@ const props = defineProps<{
 }>()
 
 const href = computed(() => `/posts/${props.post.slug}`)
+
+function onClick(e: MouseEvent) {
+  if (!document.startViewTransition) return
+  e.preventDefault()
+  document.startViewTransition(() => navigateTo(href.value))
+}
 </script>
 
 <template>
-  <NuxtLink :to="href" class="paper" :class="{ focused }">
+  <NuxtLink
+    :to="href"
+    class="paper"
+    :class="{ focused }"
+    :style="{ viewTransitionName: `card-${post.slug}` }"
+    @click="onClick"
+  >
     <div class="paper-head">
       <span class="file-no">No. {{ index }}</span>
       <span class="paper-line"></span>
