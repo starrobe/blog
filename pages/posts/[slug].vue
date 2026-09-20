@@ -68,7 +68,7 @@ const vReveal = {
         <ContentRenderer :value="post" />
       </div>
       <footer class="foot">
-        <NuxtLink to="/">> cd ..</NuxtLink>
+        <NuxtLink to="/" class="back">> cd ..</NuxtLink>
       </footer>
     </div>
   </article>
@@ -127,6 +127,10 @@ const vReveal = {
 }
 .body :deep(h2) { margin-top: 32px; }
 .body :deep(pre) { background: #f5f5f5; padding: 14px; overflow-x: auto; }
+.body :deep(pre),
+.body :deep(code) {
+  font-family: var(--font-mono);
+}
 .foot {
   display: flex;
   justify-content: space-between;
@@ -134,6 +138,9 @@ const vReveal = {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   font-size: 13px;
+}
+.back {
+  font-family: var(--font-mono);
 }
 .reveal {
   opacity: 0;
