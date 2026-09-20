@@ -54,11 +54,15 @@ function onTouchMove(e: TouchEvent) {
 
 const states = computed(() => computeCardStates(props.posts.length, current.value))
 
-const cardStyle = (s: { centered: number; scale: number; opacity: number }) => ({
-  transform: `translate(-50%, -50%) translateY(${s.centered * SPACING}px) scale(${s.scale})`,
-  opacity: s.opacity,
-  zIndex: Math.round(100 - Math.abs(s.centered) * 10)
-})
+const cardStyle = (s: { centered: number; scale: number; opacity: number }) => {
+  // 水平模式:容器整体 rotate(-90deg) 排布,卡片反向 rotate(90deg) 抵消,保持内容正向。
+  const rotation = orientation.value === 'horizontal' ? 90 : 0
+  return {
+    transform: `translate(-50%, -50%) translateY(${s.centered * SPACING}px) rotate(${rotation}deg) scale(${s.scale})`,
+    opacity: s.opacity,
+    zIndex: Math.round(100 - Math.abs(s.centered) * 10)
+  }
+}
 
 onBeforeUnmount(() => cancelAnimationFrame(rafId))
 </script>
