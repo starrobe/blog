@@ -61,7 +61,14 @@ const vReveal = {
         <div class="meta">
           <time>{{ post.date }}</time>
           <span>{{ minutes }} 分钟</span>
-          <span class="tags">{{ (post.tags ?? []).join(' · ') }}</span>
+          <span class="tags">
+            <NuxtLink
+              v-for="tag in (post.tags ?? [])"
+              :key="tag"
+              :to="`/tags/${tag}`"
+              class="tag"
+            >{{ tag }}</NuxtLink>
+          </span>
         </div>
       </header>
       <div class="body">
@@ -101,11 +108,26 @@ const vReveal = {
 }
 .meta {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   font-size: 12px;
   color: var(--grey);
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
+}
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.tag {
+  color: var(--grey);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.tag:hover {
+  color: var(--ink);
+  text-decoration: underline;
 }
 .body {
   margin-top: 24px;

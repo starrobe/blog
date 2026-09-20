@@ -23,13 +23,17 @@ function onClick(e: MouseEvent) {
 </script>
 
 <template>
-  <NuxtLink
-    :to="href"
+  <div
     class="paper"
     :class="{ focused }"
     :style="{ viewTransitionName: `card-${post.slug}` }"
-    @click="onClick"
   >
+    <NuxtLink
+      :to="href"
+      class="stretch"
+      :aria-label="post.title"
+      @click="onClick"
+    ></NuxtLink>
     <div class="paper-head">
       <span class="file-no">No. {{ index }}</span>
       <span class="paper-line"></span>
@@ -40,14 +44,22 @@ function onClick(e: MouseEvent) {
       <span class="paper-line"></span>
       <div class="paper-meta">
         <time>{{ post.date }}</time>
-        <span class="tags">{{ post.tags.join(' · ') }}</span>
+        <span class="tags">
+          <NuxtLink
+            v-for="tag in post.tags"
+            :key="tag"
+            :to="`/tags/${tag}`"
+            class="tag"
+          >{{ tag }}</NuxtLink>
+        </span>
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <style scoped>
 .paper {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -59,6 +71,11 @@ function onClick(e: MouseEvent) {
   padding: 18px 16px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.stretch {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 .paper:hover {
   transform: translateY(-4px);
@@ -105,8 +122,26 @@ function onClick(e: MouseEvent) {
 .paper-meta {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   font-size: 11px;
   color: var(--grey);
 }
-.tags { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tags {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  justify-content: flex-end;
+  text-align: right;
+}
+.tag {
+  color: var(--grey);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.tag:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
 </style>
