@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   content: {
     build: {
       markdown: {
+        remarkPlugins: {
+          'remark-math': {}
+        },
+        rehypePlugins: {
+          'rehype-katex': {}
+        },
         highlight: {
           theme: 'github-dark',
           langs: ['cpp', 'c', 'python', 'bash']
@@ -10,7 +16,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', 'katex/dist/katex.min.css'],
   nitro: {
     prerender: {
       crawlLinks: true,
