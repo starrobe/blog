@@ -741,6 +741,8 @@ function tick() {
   current.value += (target.value - current.value) * LERP
   if (Math.abs(target.value - current.value) > 0.0005) {
     rafId = requestAnimationFrame(tick)
+  } else {
+    rafId = 0
   }
 }
 
