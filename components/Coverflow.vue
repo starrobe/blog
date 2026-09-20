@@ -60,7 +60,7 @@ function updateSpan() {
   if (typeof window === 'undefined') return
   const size = orientation.value === 'vertical' ? window.innerHeight : window.innerWidth
   const cardHalf = orientation.value === 'vertical' ? CARD_H / 2 : CARD_W / 2
-  span.value = Math.ceil((size / 2 + cardHalf) / SPACING) + 1
+  span.value = Math.ceil((size / 2 + cardHalf) / SPACING)
 }
 
 const clones = computed(() => computeCoverflowClones(props.posts.length, current.value, span.value))
