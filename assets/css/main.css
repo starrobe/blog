@@ -52,7 +52,7 @@ button {
   stroke-dasharray: 0 var(--len, 3000px);
   stroke-dashoffset: 1px;
   opacity: 0;
-  animation: logo-grow 6s ease forwards infinite;
+  animation: logo-grow 10s ease forwards infinite;
 }
 @keyframes logo-grow {
   0% {
