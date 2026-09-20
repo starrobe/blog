@@ -70,7 +70,6 @@ Expected: `pnpm add nuxt` 装到 4.5.x;`@nuxt/content` 装到 3.16.x。
 ```ts
 export default defineNuxtConfig({
   modules: ['@nuxt/content'],
-  css: ['~/assets/css/main.css'],
   nitro: {
     prerender: {
       crawlLinks: true,
@@ -302,6 +301,7 @@ git commit -m "feat: content collection schema, sample posts, and sort/index log
 
 **Files:**
 - Create: `assets/css/main.css`
+- Modify: `nuxt.config.ts`
 - Modify: `app.vue`
 - Create: `components/SiteNav.vue`
 - Create: `components/GrainOverlay.vue`
@@ -345,6 +345,20 @@ button {
   cursor: pointer;
   color: inherit;
 }
+```
+
+- [ ] **Step 1b: 修改 nuxt.config.ts 注册 css**
+
+在 `nuxt.config.ts` 的 `defineNuxtConfig` 里加 `css` 字段:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['@nuxt/content'],
+  css: ['~/assets/css/main.css'],
+  nitro: {
+    prerender: { crawlLinks: true, routes: ['/'] }
+  }
+})
 ```
 
 - [ ] **Step 2: 写 components/GrainOverlay.vue**
