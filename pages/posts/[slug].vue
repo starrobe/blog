@@ -281,21 +281,20 @@ onBeforeUnmount(() => {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid #444444;
+  border: none;
   background: transparent;
-  color: #ffffff;
+  color: #8b949e;
   font-size: 20px;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   z-index: 50;
 }
 .back-to-top:hover {
-  background: #ffffff;
-  color: #0a0a0a;
-  border-color: #ffffff;
+  background: #1a1a1a;
+  color: #e6edf3;
 }
 </style>
