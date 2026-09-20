@@ -68,7 +68,7 @@ const vReveal = {
         <ContentRenderer :value="post" />
       </div>
       <footer class="foot">
-        <NuxtLink to="/">← 返回首页</NuxtLink>
+        <NuxtLink to="/">> cd ..</NuxtLink>
       </footer>
     </div>
   </article>
