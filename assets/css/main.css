@@ -52,6 +52,7 @@ button {
   stroke-dasharray: 0 var(--len, 3000px);
   stroke-dashoffset: 1px;
   opacity: 0;
+  transform-origin: center;
   animation: logo-grow 10s ease forwards infinite;
 }
 @keyframes logo-grow {
@@ -62,6 +63,10 @@ button {
   }
   10% {
     opacity: 1;
+    transform: translate(0, 1%);
+  }
+  20% {
+    transform: translate(0, 0);
   }
   40% {
     stroke-dasharray: var(--len, 3000px) 0;
