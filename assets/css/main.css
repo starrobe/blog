@@ -49,7 +49,7 @@ button {
   display: block;
 }
 .logo-path {
-  stroke-dasharray: 0 var(--len, 3000px);
+  stroke-dasharray: 0 24065px;
   stroke-dashoffset: 1px;
   opacity: 0;
   transform-origin: center;
@@ -58,7 +58,7 @@ button {
 @keyframes logo-grow {
   0% {
     stroke-dashoffset: 1px;
-    stroke-dasharray: 0 var(--len, 3000px);
+    stroke-dasharray: 0 24065px;
     opacity: 0;
   }
   10% {
@@ -69,14 +69,14 @@ button {
     transform: translate(0, 0);
   }
   40% {
-    stroke-dasharray: var(--len, 3000px) 0;
+    stroke-dasharray: 24065px 0;
   }
   85% {
-    stroke-dasharray: var(--len, 3000px) 0;
+    stroke-dasharray: 24065px 0;
   }
   95%,
   to {
-    stroke-dasharray: 0 var(--len, 3000px);
+    stroke-dasharray: 0 24065px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

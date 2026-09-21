@@ -1,11 +1,3 @@
-<script setup lang="ts">
-onMounted(() => {
-  const paths = document.querySelectorAll<SVGPathElement>('.logo-path')
-  const len = paths[0]?.getTotalLength() || 3000
-  paths.forEach((p) => p.style.setProperty('--len', `${len}`))
-})
-</script>
-
 <template>
   <div class="site">
     <GrainOverlay />
