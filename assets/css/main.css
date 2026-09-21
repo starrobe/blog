@@ -67,16 +67,20 @@ button {
   }
   20% {
     transform: translate(0, 0);
+    opacity: 1;
   }
   40% {
     stroke-dasharray: 24065px 0;
+    opacity: 1;
   }
   85% {
     stroke-dasharray: 24065px 0;
+    opacity: 1;
   }
   95%,
   to {
     stroke-dasharray: 0 24065px;
+    opacity: 1;
   }
 }
 @media (prefers-reduced-motion: reduce) {
