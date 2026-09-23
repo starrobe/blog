@@ -49,7 +49,7 @@ button {
   display: block;
 }
 .logo-path {
-  stroke-dasharray: 0 74785px;
+  stroke-dasharray: 0 1;
   stroke-dashoffset: 1px;
   opacity: 0;
   transform-origin: center;
@@ -58,7 +58,7 @@ button {
 @keyframes logo-grow {
   0% {
     stroke-dashoffset: 1px;
-    stroke-dasharray: 0 74785px;
+    stroke-dasharray: 0 1;
     opacity: 0;
   }
   10% {
@@ -70,16 +70,16 @@ button {
     opacity: 1;
   }
   40% {
-    stroke-dasharray: 74785px 0;
+    stroke-dasharray: 1 0;
     opacity: 1;
   }
   85% {
-    stroke-dasharray: 74785px 0;
+    stroke-dasharray: 1 0;
     opacity: 1;
   }
   95%,
   to {
-    stroke-dasharray: 0 74785px;
+    stroke-dasharray: 0 1;
     opacity: 1;
   }
 }
