@@ -50,14 +50,12 @@ button {
 }
 .logo-path {
   stroke-dasharray: 0 1;
-  stroke-dashoffset: 1px;
   opacity: 0;
   transform-origin: center;
   animation: logo-grow 10s ease forwards infinite;
 }
 @keyframes logo-grow {
   0% {
-    stroke-dashoffset: 1px;
     stroke-dasharray: 0 1;
     opacity: 0;
   }
