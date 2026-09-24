@@ -3,7 +3,7 @@ node_modules/
 .output/
 .data/
 .nuxt/
-dist/
+dist
 
 # Visual companion (brainstorming artifacts)
 .superpowers/
