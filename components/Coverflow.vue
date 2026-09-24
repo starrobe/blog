@@ -11,8 +11,8 @@ function setOrientation(v: 'vertical' | 'horizontal') {
   updateSpan()
 }
 
-const CARD_W = 240
-const CARD_H = 360
+const CARD_W = 312
+const CARD_H = 468
 const SPACING = CARD_H + 40
 const LERP = 0.12
 const SNAP_DELAY = 800   // 滚动停止判定时长(ms)
@@ -172,8 +172,8 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 240px;
-  height: 360px;
+  width: 312px;
+  height: 468px;
   will-change: transform, opacity;
 }
 .slot-rotator {
