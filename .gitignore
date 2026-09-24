@@ -8,6 +8,9 @@ dist/
 # Visual companion (brainstorming artifacts)
 .superpowers/
 
+# Superpowers plans/specs (brainstorming artifacts)
+docs/
+
 # Worktrees
 .worktrees/
 
