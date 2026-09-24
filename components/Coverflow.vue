@@ -17,10 +17,17 @@ const SPACING = CARD_H + 40
 const LERP = 0.12
 const SNAP_DELAY = 800   // 滚动停止判定时长(ms)
 
+// 卡片尺寸唯一来源:JS 常量,经 CSS 变量传给 .slot(见 template 的 :style)。
+const cardVars = { '--card-w': `${CARD_W}px`, '--card-h': `${CARD_H}px` }
+
 const current = ref(0)   // 当前渲染的滚动位置(平滑后)
 const target = ref(0)    // 滚动目标(滚轮/触摸累积)
 let rafId = 0
 let snapTimer: ReturnType<typeof setTimeout> | undefined
+
+function startTick() {
+  if (!rafId) rafId = requestAnimationFrame(tick)
+}
 
 function tick() {
   current.value += (target.value - current.value) * LERP
@@ -31,24 +38,30 @@ function tick() {
   }
 }
 
+// 滚轮没有「结束」事件,只能靠静默时长判定停止后吸附;触摸则在 touchend 时吸附(见 onTouchEnd)。
 function scheduleSnap() {
   if (snapTimer) clearTimeout(snapTimer)
   snapTimer = setTimeout(() => {
     snapTimer = undefined
     target.value = Math.round(target.value)
-    if (!rafId) rafId = requestAnimationFrame(tick)
+    startTick()
   }, SNAP_DELAY)
 }
 
 function onWheel(e: WheelEvent) {
   target.value += e.deltaY / SPACING
   scheduleSnap()
-  if (!rafId) rafId = requestAnimationFrame(tick)
+  startTick()
 }
 
 let touchStartX = 0
 let touchStartY = 0
 function onTouchStart(e: TouchEvent) {
+  // 清掉可能由滚轮挂起的吸附定时器,避免触摸途中被触发。
+  if (snapTimer) {
+    clearTimeout(snapTimer)
+    snapTimer = undefined
+  }
   touchStartX = e.touches[0].clientX
   touchStartY = e.touches[0].clientY
 }
@@ -64,8 +77,12 @@ function onTouchMove(e: TouchEvent) {
     touchStartY = t.clientY
     target.value += dy / SPACING
   }
-  scheduleSnap()
-  if (!rafId) rafId = requestAnimationFrame(tick)
+  startTick()
+}
+function onTouchEnd() {
+  // 触摸释放即吸附到最近卡片,不依赖定时器,避免慢速滑动中途被强行回正。
+  target.value = Math.round(target.value)
+  startTick()
 }
 
 // 可见范围:卡片完整滚出屏幕所需的最大 centered(按当前排布方向的视口尺寸)
@@ -106,13 +123,15 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="coverflow-wrap">
+  <div class="coverflow-wrap" :style="cardVars">
     <div
       class="coverflow"
       :style="{ transform: coverflowTransform }"
       @wheel.prevent="onWheel"
       @touchstart.passive="onTouchStart"
       @touchmove.passive="onTouchMove"
+      @touchend.passive="onTouchEnd"
+      @touchcancel.passive="onTouchEnd"
     >
       <div
         v-for="c in clones"
@@ -172,8 +191,9 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 312px;
-  height: 468px;
+  /* 尺寸由 JS 常量 CARD_W/CARD_H 经 --card-w/--card-h 注入(见 script 的 cardVars) */
+  width: var(--card-w);
+  height: var(--card-h);
   will-change: transform, opacity;
 }
 .slot-rotator {
