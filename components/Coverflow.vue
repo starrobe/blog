@@ -15,10 +15,12 @@ const CARD_W = 240
 const CARD_H = 360
 const SPACING = CARD_H + 40
 const LERP = 0.12
+const SNAP_DELAY = 800   // 滚动停止判定时长(ms)
 
 const current = ref(0)   // 当前渲染的滚动位置(平滑后)
 const target = ref(0)    // 滚动目标(滚轮/触摸累积)
 let rafId = 0
+let snapTimer: ReturnType<typeof setTimeout> | undefined
 
 function tick() {
   current.value += (target.value - current.value) * LERP
@@ -29,8 +31,18 @@ function tick() {
   }
 }
 
+function scheduleSnap() {
+  if (snapTimer) clearTimeout(snapTimer)
+  snapTimer = setTimeout(() => {
+    snapTimer = undefined
+    target.value = Math.round(target.value)
+    if (!rafId) rafId = requestAnimationFrame(tick)
+  }, SNAP_DELAY)
+}
+
 function onWheel(e: WheelEvent) {
   target.value += e.deltaY / SPACING
+  scheduleSnap()
   if (!rafId) rafId = requestAnimationFrame(tick)
 }
 
@@ -52,6 +64,7 @@ function onTouchMove(e: TouchEvent) {
     touchStartY = t.clientY
     target.value += dy / SPACING
   }
+  scheduleSnap()
   if (!rafId) rafId = requestAnimationFrame(tick)
 }
 
@@ -87,6 +100,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(rafId)
+  if (snapTimer) clearTimeout(snapTimer)
   window.removeEventListener('resize', updateSpan)
 })
 </script>
