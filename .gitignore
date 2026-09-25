@@ -14,8 +14,20 @@ docs/
 # Worktrees
 .worktrees/
 
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Test coverage
+coverage/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # OS / editor
 .DS_Store
+Thumbs.db
 *.log
 
 # Playwright MCP artifacts
@@ -23,3 +35,4 @@ docs/
 
 # Claude Code (personal, not shared)
 CLAUDE.md
+.claude/
