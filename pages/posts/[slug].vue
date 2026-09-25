@@ -14,6 +14,13 @@ if (!post.value) {
 
 const minutes = computed(() => readingMinutes(bodyToPlainText(post.value?.body)))
 
+const router = useRouter()
+function goBack() {
+  // cd ..:返回上一页;若无历史(直接落地此页)则回首页
+  if (window.history.length > 1) router.back()
+  else router.push('/')
+}
+
 // SEO:每篇文章独立的标题与描述
 useSeoMeta({
   title: `${post.value.title} · BLOG`,
@@ -88,7 +95,7 @@ onBeforeUnmount(() => {
           <svg class="back-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M6 3 L11 8 L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-          <NuxtLink to="/" class="back-link">cd ..</NuxtLink>
+          <a href="#" class="back-link" @click.prevent="goBack">cd ..</a>
         </span>
       </footer>
     </div>

@@ -4,6 +4,13 @@ import { sortAndIndex } from '~/utils/posts'
 const route = useRoute()
 const tag = route.params.tag as string
 
+const router = useRouter()
+function goBack() {
+  // cd ..:返回上一页;若无历史(直接落地此页)则回首页
+  if (window.history.length > 1) router.back()
+  else router.push('/')
+}
+
 const { data } = await useAsyncData(`tag-${tag}`, () =>
   queryCollection('posts').where('hidden', '=', false).all()
 )
@@ -34,7 +41,12 @@ const posts = computed(() => {
         </NuxtLink>
       </li>
     </ul>
-    <NuxtLink to="/" class="back">← 返回首页</NuxtLink>
+    <span class="back">
+      <svg class="back-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M6 3 L11 8 L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <a href="#" class="back-link" @click.prevent="goBack">cd ..</a>
+    </span>
   </div>
 </template>
 
@@ -59,5 +71,19 @@ const posts = computed(() => {
 .idx { color: var(--grey); font-size: 12px; }
 .t { flex: 1; }
 time { color: var(--grey); font-size: 12px; }
-.back { display: inline-block; margin-top: 32px; color: var(--grey); }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 32px;
+  font-family: var(--font-mono);
+  color: #8b949e;
+}
+.back-icon { flex-shrink: 0; }
+.back-link { transition: color 0.2s ease; }
+.back-link:hover {
+  color: #e6edf3;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 </style>
