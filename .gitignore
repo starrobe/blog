@@ -20,3 +20,6 @@ docs/
 
 # Playwright MCP artifacts
 .playwright-mcp/
+
+# Claude Code (personal, not shared)
+CLAUDE.md
